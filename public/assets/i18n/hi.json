@@ -1,0 +1,37 @@
+{
+    "APP_TITLE": "नगर परिषद कार्य प्रबंधन",
+    "LOGIN": "लॉग इन",
+    "LOGOUT": "लॉग आउट",
+    "DASHBOARD": "डैशबोर्ड",
+    "TASKS": "कार्य",
+    "PROFILE": "प्रोफ़ाइल",
+    "LANGUAGE": "भाषा",
+    "STATUS": {
+        "TO_DO": "करने के लिए",
+        "IN_PROGRESS": "प्रगति में",
+        "ON_HOLD": "रोका हुआ",
+        "COMPLETED": "पूरा हुआ"
+    },
+    "PRIORITY": {
+        "MINOR": "मामूली",
+        "LOW": "कम",
+        "MEDIUM": "मध्यम",
+        "HIGH": "उच्च",
+        "CRITICAL": "गंभीर"
+    },
+    "ROLES": {
+        "ADMIN": "व्यवस्थापक",
+        "DEPARTMENT_HEAD": "विभाग प्रमुख",
+        "STAFF": "कर्मचारी",
+        "OWNER": "मालिक"
+    },
+    "COMMON": {
+        "SAVE": "सहेजें",
+        "CANCEL": "रद्द करें",
+        "DELETE": "हटाएं",
+        "EDIT": "संपादित करें",
+        "VIEW": "देखें",
+        "SEARCH": "खोजें",
+        "FILTER": "फ़िल्टर"
+    }
+}

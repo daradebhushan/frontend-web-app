@@ -1,0 +1,261 @@
+<div
+    class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center z-[60] p-4">
+    <div [ngClass]="{'max-w-2xl': !referenceComplaint, 'max-w-7xl': referenceComplaint}"
+        class="bg-white rounded-3xl shadow-2xl w-full overflow-hidden flex flex-col max-h-[90vh] transition-all duration-300">
+
+        <!-- Header -->
+        <div
+            class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 z-10 w-full">
+            <h2 class="text-lg font-bold text-gray-900">{{ (isEditMode ? 'EDIT_TASK' : 'CREATE_NEW_TASK') | translate }}
+            </h2>
+            <a routerLink="/tasks" class="p-2 rounded-full hover:bg-gray-100 transition text-gray-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Scrollable Body -->
+        <div class="flex-1 overflow-y-auto p-6 pb-32 bg-cream-50">
+            <div [class.flex]="referenceComplaint" [class.flex-col]="referenceComplaint"
+                [class.md:flex-row]="referenceComplaint" [class.gap-8]="referenceComplaint">
+
+                <!-- Reference Complaint Panel -->
+                <div *ngIf="referenceComplaint"
+                    class="w-full md:w-1/2 bg-white p-5 rounded-xl shadow-sm border border-gray-100 h-fit space-y-4">
+                    <h3 class="font-bold text-gray-800 border-b pb-2 mb-2">Original Complaint Reference</h3>
+
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <!-- Citizen -->
+                        <div>
+                            <label class="block text-gray-500 text-xs uppercase font-semibold">Citizen</label>
+                            <div class="font-medium text-gray-900">{{referenceComplaint.citizenName}}</div>
+                            <div class="text-gray-500 text-xs">{{referenceComplaint.citizenMobile}}</div>
+                        </div>
+
+                        <!-- Department -->
+                        <div>
+                            <label class="block text-gray-500 text-xs uppercase font-semibold">Department</label>
+                            <div class="font-medium text-gray-900">{{referenceComplaint.departmentName ||
+                                referenceComplaint.department?.name || 'N/A'}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-gray-500 text-xs uppercase font-semibold mb-1">Description</label>
+                        <div
+                            class="bg-gray-50 p-3 rounded text-gray-800 text-sm whitespace-pre-wrap border border-gray-200">
+                            {{referenceComplaint.description}}</div>
+                    </div>
+
+                    <!-- Location -->
+                    <div *ngIf="referenceComplaint.location">
+                        <label class="block text-gray-500 text-xs uppercase font-semibold">Location</label>
+                        <div class="text-blue-600 truncate text-sm" title="{{referenceComplaint.location}}">
+                            {{referenceComplaint.location}}</div>
+                    </div>
+
+                    <!-- Photo -->
+                    <div *ngIf="referenceComplaint.photoUrl && referenceComplaint.photoUrl !== 'Next' && referenceComplaint.photoUrl !== 'Skip'"
+                        class="pt-2">
+                        <label class="block text-gray-500 text-xs uppercase font-semibold mb-1">Attached Photo</label>
+                        <img [src]="referenceComplaint.photoUrl"
+                            class="w-full h-40 object-cover rounded-lg border cursor-pointer hover:opacity-90"
+                            onclick="window.open(this.src, '_blank')">
+                    </div>
+                </div>
+
+                <!-- Form Section -->
+                <div [class.w-full]="!referenceComplaint" [class.md:w-1/2]="referenceComplaint" class="transition-all">
+                    <form (ngSubmit)="onSubmit()" class="space-y-5">
+                        <div *ngIf="error"
+                            class="bg-red-50 text-red-700 p-3 rounded text-sm font-semibold border border-red-100">
+                            {{ error }}
+                        </div>
+
+                        <!-- Title -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                'TITLE' |
+                                translate }} *</label>
+                            <input type="text" [(ngModel)]="taskData.title" name="title" required
+                                [placeholder]="'ENTER_TASK_TITLE' | translate"
+                                class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg py-3 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                'DESCRIPTION'
+                                | translate }}
+                                *</label>
+                            <textarea [(ngModel)]="taskData.description" name="description" rows="3" required
+                                [placeholder]="'TASK_DESCRIPTION_PLACEHOLDER' | translate"
+                                class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg py-3 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Task Type -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                    'TASK_TYPE' | translate }}
+                                    *</label>
+                                <div class="relative">
+                                    <select [(ngModel)]="taskData.type" name="type" required
+                                        class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg py-3 px-4 text-sm text-gray-900 outline-none appearance-none transition">
+                                        <option value="Internal">{{ 'NON_COMPLAINT_BASED' | translate }}</option>
+                                        <option value="Complaint">{{ 'COMPLAINT_BASED' | translate }}</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Priority -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                    'PRIORITY' | translate }}
+                                    *</label>
+                                <div class="relative">
+                                    <select [(ngModel)]="taskData.priority" name="priority" required
+                                        class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg py-3 px-4 text-sm text-gray-900 outline-none appearance-none transition">
+                                        <option value="LOW">{{ 'LOW' | translate }}</option>
+                                        <option value="MEDIUM">{{ 'MEDIUM' | translate }}</option>
+                                        <option value="HIGH">{{ 'HIGH' | translate }}</option>
+                                        <option value="CRITICAL">{{ 'CRITICAL' | translate }}</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Due Date -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                    'DUE_DATE' | translate }}</label>
+                                <input type="datetime-local" [(ngModel)]="taskData.dueDate" name="dueDate"
+                                    class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg h-12 py-3 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Department -->
+                            <div>
+                                <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                    'DEPARTMENT_LABEL' | translate }}
+                                    *</label>
+                                <div class="relative">
+                                    <select [(ngModel)]="taskData.departmentId" name="departmentId" required
+                                        (change)="onDepartmentChange()"
+                                        class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg py-3 px-4 text-sm text-gray-900 outline-none appearance-none transition">
+                                        <option [ngValue]="null" disabled selected>{{ 'SELECT_DEPARTMENT' | translate }}
+                                        </option>
+                                        <option *ngFor="let dept of departments" [ngValue]="dept.id">{{ dept.name }}
+                                        </option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Assign Staff -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <label class="block text-xs font-bold text-gray-900 uppercase tracking-wide">{{
+                                        'ASSIGN_STAFF' | translate }}</label>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="showAllStaff" [(ngModel)]="showAllStaff"
+                                            name="showAllStaff"
+                                            class="w-4 h-4 text-orange-600 rounded border-gray-300 focus:ring-orange-500">
+                                        <label for="showAllStaff" class="ml-2 text-xs text-gray-600 cursor-pointer">{{
+                                            'SHOW_ALL_STAFF' | translate }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="relative">
+                                    <select [(ngModel)]="taskData.assignedStaffId" name="assignedStaffId"
+                                        [disabled]="!taskData.departmentId && !showAllStaff"
+                                        class="w-full bg-white border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-200 rounded-lg py-3 px-4 text-sm text-gray-900 outline-none appearance-none transition disabled:opacity-50 disabled:bg-gray-50">
+                                        <option [ngValue]="null">{{ 'UNASSIGNED' | translate }}</option>
+                                        <option *ngFor="let staff of filteredStaffList" [ngValue]="staff.id">{{
+                                            staff.name }}
+                                        </option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Attachments -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{
+                                'ATTACHMENTS'
+                                | translate }}
+                                ({{ 'OPTIONAL' | translate }})</label>
+                            <div
+                                class="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:bg-white hover:border-orange-300 transition cursor-pointer relative bg-gray-50">
+                                <input type="file" (change)="onFileSelected($event)" multiple
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                <div class="text-sm text-gray-500">
+                                    <span class="text-orange-600 font-bold">{{ 'CLICK_TO_UPLOAD' | translate }}</span>
+                                    {{
+                                    'OR_DRAG_AND_DROP' | translate }}
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1"
+                                    *ngIf="!selectedFiles || selectedFiles.length === 0">PDF,
+                                    JPG, PNG
+                                    {{ 'UP_TO' | translate }}
+                                    10MB</p>
+                                <p class="text-xs text-orange-600 mt-1 font-bold"
+                                    *ngIf="selectedFiles && selectedFiles.length > 0">
+                                    {{ selectedFiles.length }} {{ 'FILES_SELECTED' | translate }}: {{ selectedFileNames
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end pt-4 space-x-3 border-t border-gray-100">
+                            <a routerLink="/tasks"
+                                class="px-6 py-2.5 rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-100 transition">
+                                {{ 'CANCEL' | translate }}
+                            </a>
+                            <button type="submit" [disabled]="loading"
+                                class="px-6 py-2.5 rounded-lg text-sm font-bold text-white bg-saffron-600 hover:bg-saffron-700 shadow-md hover:shadow-lg transition transform active:scale-95 disabled:opacity-50">
+                                {{ (loading ? (isEditMode ? 'UPDATING' : 'CREATING') : (isEditMode ? 'UPDATE_TASK' :
+                                'CREATE_TASK')) | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

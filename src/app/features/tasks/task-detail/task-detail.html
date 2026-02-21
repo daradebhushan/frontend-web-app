@@ -1,0 +1,403 @@
+<div
+    class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center z-[60] p-4">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
+        <!-- Header -->
+        <div class="bg-white px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 z-10">
+            <div class="flex items-center space-x-3">
+                <button (click)="closeModal()" class="p-2 rounded-full hover:bg-gray-100 transition text-gray-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                </button>
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900">{{ 'TASK_DETAILS' | translate }}</h2>
+                    <div class="text-xs text-gray-500 font-mono" *ngIf="task">ID: NP/2025/T-{{ task?.id }}</div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center space-x-2 ml-4">
+                    <button (click)="onEdit()" class="p-2 rounded-full hover:bg-blue-50 text-blue-600 transition"
+                        [title]="'EDIT_TASK' | translate">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button (click)="onDelete()" class="p-2 rounded-full hover:bg-red-50 text-red-600 transition"
+                        [title]="'DELETE_TASK' | translate">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <!-- Status Dropdown -->
+                <div class="relative">
+                    <select [ngModel]="task?.status" (ngModelChange)="updateStatus($event)" [disabled]="updatingStatus"
+                        class="appearance-none px-3 py-1 pr-8 text-xs font-bold uppercase tracking-wider rounded-full border-none outline-none cursor-pointer focus:ring-2 focus:ring-offset-1 focus:ring-orange-200"
+                        [ngClass]="{
+                            'bg-blue-100 text-blue-700': task?.status === 'IN_PROGRESS',
+                            'bg-green-100 text-green-700': task?.status === 'COMPLETED',
+                            'bg-gray-100 text-gray-700': task?.status === 'TO_DO',
+                            'bg-yellow-100 text-yellow-700': task?.status === 'ON_HOLD'
+                        }">
+                        <option *ngFor="let s of statusOptions" [value]="s">{{ s | translate }}</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <svg class="w-3 h-3 text-current opacity-50" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+
+                <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full" [ngClass]="{
+                        'bg-red-100 text-red-700': task?.priority === 'CRITICAL',
+                        'bg-saffron-100 text-saffron-700': task?.priority === 'HIGH',
+                        'bg-yellow-100 text-yellow-700': task?.priority === 'MEDIUM',
+                        'bg-green-100 text-green-700': task?.priority === 'LOW'
+                    }">
+                    {{ task?.priority | translate }}
+                </span>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6 bg-cream-50 pb-20" *ngIf="task">
+            <!-- Top Section: Title & Description -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
+                <h1 class="text-xl font-bold text-gray-900 mb-2">{{ task?.title }}</h1>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4">{{ task?.description }}</p>
+
+                <!-- Task Attachments Section -->
+                <div class="mb-4">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{{ 'ATTACHMENTS' |
+                        translate }}</h4>
+                    <div class="flex flex-wrap gap-2 mb-2">
+                        <div *ngFor="let att of attachments" (click)="downloadFile(att)"
+                            class="cursor-pointer bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg px-3 py-2 flex items-center space-x-2 text-xs text-blue-700 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                                </path>
+                            </svg>
+                            <span class="font-medium">{{ att.fileName }}</span>
+                            <button (click)="deleteAttachment(att, $event)"
+                                class="ml-1 p-1 hover:bg-red-100 rounded-full text-gray-400 hover:text-red-500 transition"
+                                title="Delete Attachment">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div *ngIf="!attachments || attachments.length === 0" class="text-xs text-gray-400 italic">
+                            {{ 'NO_ATTACHMENTS' | translate }}
+                        </div>
+                    </div>
+
+                    <!-- Add Attachment -->
+                    <div class="flex items-center gap-2">
+                        <label
+                            class="cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded text-xs font-bold transition flex items-center">
+                            <input type="file" multiple (change)="onTaskFileSelected($event)" class="hidden">
+                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            {{ 'ADD_FILES' | translate }}
+                        </label>
+                        <span *ngIf="newTaskFiles && newTaskFiles.length > 0" class="text-xs text-blue-600 font-bold">
+                            {{ newTaskFiles.length }} {{ 'FILES_SELECTED' | translate }}
+                            <button (click)="uploadTaskAttachments()"
+                                class="ml-2 text-white bg-blue-600 hover:bg-blue-700 px-2 py-0.5 rounded shadow-sm">{{
+                                'UPLOAD' | translate }}</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-50">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-1">{{ 'DUE_DATE' |
+                            translate }}</div>
+                        <div class="flex items-center text-sm font-semibold text-gray-700">
+                            <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            {{ task?.dueDate ? (task.dueDate | date:'mediumDate') : 'No Date' }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-1">{{
+                            'DEPARTMENT_LABEL' | translate }}</div>
+                        <div class="flex items-center text-sm font-semibold text-gray-700">
+                            <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                            {{ task?.department?.name || 'General' }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-1">{{ 'ASSIGNED_TO'
+                            | translate }}</div>
+                        <div class="flex items-center text-sm font-semibold text-gray-700">
+                            <div
+                                class="w-5 h-5 rounded-full bg-saffron-100 text-saffron-700 flex items-center justify-center text-[10px] font-bold mr-1.5">
+                                {{ task?.assignedStaff?.name ? task?.assignedStaff!.name.charAt(0) : '?' }}
+                            </div>
+                            <span>{{ task?.assignedStaff?.name || ('UNASSIGNED' | translate) }}</span>
+                            <button *ngIf="isAdmin" (click)="openReassignModal()"
+                                class="ml-2 text-blue-500 hover:text-blue-700 transition" title="Reassign">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-gray-400 font-bold mb-1">Location</div>
+                        <div class="flex items-center text-sm font-semibold text-gray-700">
+                            <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Ward 5
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column Layout: Timeline vs Comments/Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Left: Progress Timeline -->
+                <div class="lg:col-span-1">
+                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-widest mb-4 flex items-center">
+                        <svg class="w-4 h-4 mr-2 text-saffron-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        {{ 'TIMELINE' | translate }}
+                    </h3>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="relative pl-4 border-l-2 border-gray-100 space-y-8">
+                            <!-- Mock Timeline Nodes -->
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[21px] bg-green-500 h-3 w-3 rounded-full border-2 border-white shadow">
+                                </div>
+                                <div class="text-xs text-gray-400 mb-0.5">{{ task?.createdDate | date:'short' }}</div>
+                                <div class="font-bold text-sm text-gray-800">{{ 'TASK_CREATED' | translate }}</div>
+                                <div class="text-xs text-gray-500">{{ 'BY' | translate }} {{ task?.admin?.name ||
+                                    'Admin' }}</div>
+                            </div>
+                            <div class="relative" *ngIf="task?.assignedStaff">
+                                <div
+                                    class="absolute -left-[21px] bg-blue-500 h-3 w-3 rounded-full border-2 border-white shadow">
+                                </div>
+                                <div class="text-xs text-gray-400 mb-0.5">{{ 'TODAY' | translate }}</div>
+                                <div class="font-bold text-sm text-gray-800">{{ 'ASSIGNED' | translate }}</div>
+                                <div class="text-xs text-gray-500">{{ 'TO' | translate }} {{ task?.assignedStaff?.name
+                                    }}</div>
+                            </div>
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-[21px] bg-gray-300 h-3 w-3 rounded-full border-2 border-white shadow">
+                                </div>
+                                <div class="font-bold text-sm text-gray-400">{{ 'IN_PROGRESS' | translate }}</div>
+                                <div class="text-xs text-gray-400">Estimated completion soon</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Comments & Reassign -->
+                <div class="lg:col-span-2 space-y-6">
+
+                    <!-- Comments -->
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-widest mb-4 flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-saffron-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                                </path>
+                            </svg>
+                            {{ 'COMMENTS' | translate }}
+                        </h3>
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                            <div class="h-64 overflow-y-auto p-4 bg-gray-50">
+                                <div *ngIf="!comments || comments.length === 0"
+                                    class="flex flex-col items-center justify-center h-full text-gray-400">
+                                    <span class="text-sm">{{ 'NO_COMMENTS_YET' | translate }}</span>
+                                </div>
+                                <div *ngFor="let comment of comments" class="mb-4 last:mb-0">
+                                    <div class="flex items-start space-x-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-xs font-bold text-gray-600 shadow-sm">
+                                            {{ comment?.user?.name ? comment.user.name.charAt(0) : 'U' }}
+                                        </div>
+                                        <div
+                                            class="bg-white p-3 rounded-lg rounded-tl-none shadow-soft border border-gray-100 flex-1">
+
+                                            <!-- Normal View -->
+                                            <div *ngIf="editingCommentId !== comment.id">
+                                                <div class="flex justify-between items-center mb-1">
+                                                    <span class="font-bold text-xs text-gray-800">{{ comment?.user?.name
+                                                        || 'Unknown User' }}</span>
+                                                    <div class="flex items-center space-x-2">
+                                                        <span class="text-[10px] text-gray-400">{{ comment?.timestamp |
+                                                            date:'short' }}</span>
+
+                                                        <!-- Actions -->
+                                                        <div *ngIf="canEdit(comment)" class="flex space-x-1">
+                                                            <button (click)="startEditing(comment)"
+                                                                class="text-blue-400 hover:text-blue-600 p-1"
+                                                                [title]="'EDIT' | translate">
+                                                                <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                                                    </path>
+                                                                </svg>
+                                                            </button>
+                                                            <button (click)="deleteComment(comment.id)"
+                                                                class="text-red-400 hover:text-red-600 p-1"
+                                                                [title]="'DELETE' | translate">
+                                                                <svg class="w-3 h-3" fill="none" stroke="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2"
+                                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                                                    </path>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="text-sm text-gray-700">{{ comment?.text }}</p>
+
+                                                <!-- Comment Attachments -->
+                                                <div *ngIf="comment?.attachments && comment.attachments.length > 0"
+                                                    class="mt-2 flex flex-wrap gap-2">
+                                                    <div *ngFor="let att of comment.attachments"
+                                                        (click)="downloadFile(att)"
+                                                        class="cursor-pointer bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded px-2 py-1 flex items-center space-x-1 text-xs text-gray-600 transition">
+                                                        <svg class="w-3 h-3 text-gray-400" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                                                            </path>
+                                                        </svg>
+                                                        <span class="truncate max-w-[150px]">{{ att.fileName }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Editing View -->
+                                            <div *ngIf="editingCommentId === comment.id">
+                                                <textarea [(ngModel)]="editedCommentText"
+                                                    class="w-full bg-gray-50 border border-blue-200 rounded p-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 mb-2"></textarea>
+                                                <div class="flex justify-end space-x-2">
+                                                    <button (click)="cancelEditing()"
+                                                        class="text-xs text-gray-500 hover:text-gray-700 px-2 py-1">{{
+                                                        'CANCEL' | translate }}</button>
+                                                    <button (click)="saveEdit(comment.id)"
+                                                        class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">{{
+                                                        'SAVE' | translate }}</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-white border-t border-gray-100 flex flex-col gap-2">
+                                <div class="flex gap-2 items-center">
+                                    <input type="text" [(ngModel)]="newComment"
+                                        [placeholder]="'WRITE_A_NOTE' | translate"
+                                        class="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-saffron-500 focus:border-saffron-500 outline-none transition">
+
+                                    <!-- Attachment Button -->
+                                    <label
+                                        class="cursor-pointer p-2 rounded-lg hover:bg-gray-100 text-gray-400 transition"
+                                        [title]="'ATTACH_FILES' | translate">
+                                        <input type="file" multiple (change)="onCommentFileSelected($event)"
+                                            class="hidden">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                                            </path>
+                                        </svg>
+                                    </label>
+
+                                    <button (click)="addComment()"
+                                        class="bg-saffron-600 hover:bg-saffron-700 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-sm transition">
+                                        {{ 'POST' | translate }}
+                                    </button>
+                                </div>
+                                <div *ngIf="newCommentFiles && newCommentFiles.length > 0"
+                                    class="text-xs text-saffron-600 font-bold px-1">
+                                    {{ 'SELECTED' | translate }}: {{ commentFileNames }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reassign (Admin Only) -->
+                    <div *ngIf="isAdmin" class="hidden">
+                        <!-- Hidden for now, implemented as component later if needed -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 flex items-center justify-center bg-cream-50" *ngIf="!task">
+            <div class="text-gray-500">{{ 'LOADING_TASK_DETAILS' | translate }}</div>
+        </div>
+    </div>
+
+    <!-- Reassign Modal -->
+    <div *ngIf="showReassignModal"
+        class="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl space-y-5 animate-scale-in">
+            <h3 class="text-lg font-bold text-gray-900 border-b border-gray-100 pb-3">Reassign Task</h3>
+            <div>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Select Staff</label>
+                <select [(ngModel)]="selectedStaffId"
+                    class="w-full bg-gray-50 border border-gray-200 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-orange-500/20 active:outline-none focus:outline-none transition">
+                    <option [ngValue]="null">Select Staff...</option>
+                    <option *ngFor="let s of staffList" [value]="s.id">{{ s.name }} ({{ s.designation?.name || 'Staff'
+                        }})</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button (click)="closeReassignModal()"
+                    class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm font-semibold transition">Cancel</button>
+                <button (click)="confirmReassign()"
+                    class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold shadow-sm transition">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

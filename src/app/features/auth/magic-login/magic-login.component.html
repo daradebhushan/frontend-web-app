@@ -1,0 +1,30 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 text-center">
+        <div *ngIf="status === 'loading'" class="animate-pulse">
+            <div
+                class="h-12 w-12 mx-auto mb-4 border-4 border-orange-500 border-t-transparent rounded-full animate-spin">
+            </div>
+            <h2 class="text-xl font-semibold text-gray-900">{{ message }}</h2>
+        </div>
+
+        <div *ngIf="status === 'success'">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="mt-4 text-xl font-semibold text-gray-900">{{ message }}</h2>
+        </div>
+
+        <div *ngIf="status === 'error'">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </div>
+            <h2 class="mt-4 text-xl font-semibold text-gray-900">{{ message }}</h2>
+            <p class="mt-2 text-sm text-gray-600">Redirecting to login page...</p>
+        </div>
+    </div>
+</div>

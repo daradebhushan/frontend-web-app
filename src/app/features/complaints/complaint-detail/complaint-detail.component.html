@@ -1,0 +1,135 @@
+<div class="p-6 bg-white rounded-lg shadow-md max-w-4xl mx-auto" *ngIf="complaint">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6 border-b pb-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Complaint #{{complaint.complaintNo}}</h2>
+            <span class="px-3 py-1 text-sm font-semibold rounded-full" [ngClass]="{
+                    'bg-yellow-100 text-yellow-800': complaint.status === 'PENDING',
+                    'bg-green-100 text-green-800': complaint.status === 'ACCEPTED',
+                    'bg-red-100 text-red-800': complaint.status === 'REJECTED',
+                    'bg-blue-100 text-blue-800': complaint.status === 'CONVERTED_TO_TASK'
+                }">
+                {{complaint.status}}
+            </span>
+        </div>
+        <button [routerLink]="['/complaints']" class="text-gray-600 hover:text-gray-800">
+            &larr; Back to List
+        </button>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Left Column: Details -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-500">Citizen</label>
+                <div class="text-lg">{{complaint.citizenName}}</div>
+                <div class="text-gray-600">{{complaint.citizenMobile}}</div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-500">Department</label>
+                <div class="font-medium">{{complaint.department?.name || complaint.departmentName || 'N/A'}}</div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-500">Description</label>
+                <p class="whitespace-pre-wrap bg-gray-50 p-3 rounded border">{{complaint.description}}</p>
+            </div>
+
+            <div *ngIf="complaint.location" class="cursor-pointer text-blue-600 hover:underline"
+                (click)="openLocation()">
+                <label class="block text-sm font-medium text-gray-500">Location</label>
+                <span>📍 {{complaint.location}}</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex space-x-3 pt-4">
+                <button *ngIf="complaint.status === 'PENDING' || complaint.status === 'ACCEPTED'"
+                    (click)="convertToTask()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Create Task
+                </button>
+                <button *ngIf="complaint.status === 'PENDING'" (click)="updateStatus('REJECTED')"
+                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Reject
+                </button>
+            </div>
+
+            <!-- Related Task Link -->
+            <div *ngIf="complaint.relatedTaskId" class="mt-4 p-4 bg-blue-50 rounded border border-blue-200">
+                <label class="block text-sm font-medium text-blue-800">Related Task</label>
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">📋</span>
+                    <a [routerLink]="['/tasks', complaint.relatedTaskId]"
+                        class="text-lg font-bold text-blue-600 hover:text-blue-800 hover:underline">
+                        {{ complaint.relatedTaskTitle || 'View Linked Task' }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Media & Attachments -->
+        <div class="space-y-6">
+            <!-- Main Photo -->
+            <div *ngIf="getResolvedPhotoUrl()" class="border rounded p-2">
+                <label class="block text-sm font-medium text-gray-500 mb-2">Attached Photo</label>
+                <img [src]="getResolvedPhotoUrl()" class="w-full h-auto rounded object-cover max-h-64 cursor-pointer"
+                    (click)="openOriginalMedia()" title="Click to Open Original" onerror="this.style.display='none'">
+                <button (click)="openOriginalMedia()" class="mt-2 text-sm text-blue-600">Open Original</button>
+            </div>
+
+            <!-- Attachments List -->
+            <div>
+                <label class="block text-sm font-medium text-gray-500 mb-2">Attachments</label>
+                <div class="space-y-2">
+                    <div *ngFor="let file of complaint.attachments"
+                        class="flex items-center justify-between p-2 bg-gray-50 rounded border">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-gray-600">📎</span>
+                            <span class="text-sm truncate max-w-xs" title="{{file.fileName}}">{{file.fileName}}</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button *ngIf="isImage(file)" (click)="viewAttachment(file)"
+                                class="text-indigo-600 hover:text-indigo-800 text-sm">View</button>
+                            <button (click)="downloadFile(file)"
+                                class="text-blue-600 hover:text-blue-800 text-sm">Download</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Upload -->
+                <div class="mt-2">
+                    <input type="file" (change)="uploadAttachment($event)" id="fileInput" class="hidden">
+                    <button onclick="document.getElementById('fileInput').click()"
+                        class="text-sm border border-dashed border-gray-400 text-gray-600 hover:bg-gray-50 px-3 py-1 rounded w-full">
+                        + Add Attachment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-8 border-t pt-6">
+        <h3 class="text-lg font-bold mb-4">Comments</h3>
+        <div class="space-y-4 max-h-64 overflow-y-auto mb-4 custom-scrollbar">
+            <div *ngFor="let comment of complaint.comments" class="bg-gray-50 p-3 rounded">
+                <div class="flex justify-between items-baseline mb-1">
+                    <span class="font-semibold text-sm">{{comment.userName}}</span>
+                    <span class="text-xs text-gray-500">{{comment.timestamp | date:'medium'}}</span>
+                </div>
+                <p class="text-gray-700 text-sm">{{comment.text}}</p>
+            </div>
+            <div *ngIf="!complaint.comments?.length" class="text-gray-500 italic">No comments yet.</div>
+        </div>
+
+        <div class="flex gap-2">
+            <input type="text" [(ngModel)]="newComment" placeholder="Write a comment..."
+                class="flex-1 border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                (keydown.enter)="addComment()">
+            <button (click)="addComment()"
+                class="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">
+                Send
+            </button>
+        </div>
+    </div>
+</div>

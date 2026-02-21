@@ -1,0 +1,322 @@
+<div class="settings-container">
+    <div class="header">
+        <h2>🤖 Chatbot Configuration</h2>
+        <p>Configure your WhatsApp Chatbot credentials and dynamic flow.</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="tabs mb-4 flex space-x-2 border-b">
+        <button (click)="activeTab = 'config'" [class.font-bold]="activeTab === 'config'"
+            [class.border-b-2]="activeTab === 'config'" class="px-4 py-2 border-indigo-500">
+            Twilio & Greetings
+        </button>
+        <button (click)="activeTab = 'flow'" [class.font-bold]="activeTab === 'flow'"
+            [class.border-b-2]="activeTab === 'flow'" class="px-4 py-2 border-indigo-500">
+            Flow Builder
+        </button>
+        <button (click)="activeTab = 'sim'" [class.font-bold]="activeTab === 'sim'"
+            [class.border-b-2]="activeTab === 'sim'" class="px-4 py-2 border-indigo-500">
+            Simulator
+        </button>
+    </div>
+
+    <!-- COMING SOON OVERLAY -->
+    <div *ngIf="!isConfigurable && activeTab !== 'sim'"
+        class="p-10 text-center bg-gray-50 rounded-xl border border-dashed border-gray-300">
+        <h3 class="text-2xl font-bold text-gray-700 mb-2">🚀 Coming Soon</h3>
+        <p class="text-gray-500 mb-4">Configurable Chatbot is currently under development.</p>
+        <p class="text-sm text-gray-400">We are using a hardcoded flow for now to ensure stability. Please use the
+            <b>Simulator</b> tab to test the current behavior.
+        </p>
+    </div>
+
+    <!-- SIMULATOR TAB -->
+    <div *ngIf="activeTab === 'sim'" class="animate-fade-in-up">
+        <div class="h-[600px] border rounded-xl overflow-hidden bg-white shadow-xl flex flex-col items-center">
+            <div class="w-full max-w-md bg-gray-100 flex-1 flex flex-col relative h-full">
+                <div class="bg-green-600 text-white p-3 flex items-center shadow-md">
+                    <div class="w-8 h-8 bg-gray-300 rounded-full mr-3 overflow-hidden">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm">Chatbot Simulator</h3>
+                        <p class="text-xs opacity-75">Online</p>
+                    </div>
+                    <button (click)="clearChat()" class="ml-auto text-xs bg-green-700 px-2 py-1 rounded">Reset</button>
+                </div>
+
+                <div
+                    class="flex-1 overflow-y-auto p-4 space-y-3 bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')]">
+                    <div *ngIf="chatHistory.length === 0"
+                        class="text-center text-xs text-gray-500 bg-yellow-100 p-2 rounded shadow mb-4">
+                        Send "Hi" to start testing your flow.
+                    </div>
+                    <div *ngFor="let msg of chatHistory" class="flex"
+                        [ngClass]="{'justify-end': msg.sender === 'user'}">
+                        <div class="max-w-[80%] rounded-lg p-2 text-sm shadow-sm whitespace-pre-wrap"
+                            [ngClass]="msg.sender === 'user' ? 'bg-green-100 text-gray-800' : 'bg-white text-gray-800'">
+                            {{ msg.text }}
+                        </div>
+                    </div>
+                    <div *ngIf="simLoading" class="flex justify-start">
+                        <div class="bg-white rounded-lg p-2 shadow-sm"><span class="animate-pulse">...</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-200 p-2 flex flex-col">
+                    <div *ngIf="selectedFile"
+                        class="px-2 py-1 mb-1 text-xs text-blue-600 flex items-center bg-blue-50 rounded self-start">
+                        <span class="truncate max-w-[200px]">{{ selectedFile.name }}</span>
+                        <button (click)="selectedFile = null; fileInput.value = ''"
+                            class="ml-2 text-red-500 font-bold hover:text-red-700">✕</button>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full">
+                        <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden"
+                            accept="image/*,application/pdf">
+                        <button (click)="fileInput.click()" [class.text-blue-600]="selectedFile" title="Attach Photo"
+                            class="h-10 px-3 bg-white text-gray-500 rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 transition shrink-0">
+                            <!-- Paperclip Icon -->
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                                </path>
+                            </svg>
+                            <span class="text-xs font-bold uppercase">Attach</span>
+                        </button>
+                        <input type="text" [(ngModel)]="simMessage" (keyup.enter)="sendSimMessage()"
+                            placeholder="Type a message..."
+                            class="flex-1 rounded-full px-4 py-2 border-none outline-none text-sm">
+                        <button (click)="sendSimMessage()"
+                            class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white shadow-md hover:bg-green-700 transition shrink-0">
+                            <!-- Paper Plane -->
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Task Creation Prompt -->
+                    <div *ngIf="createdComplaintData"
+                        class="mt-2 bg-orange-50 border border-orange-200 rounded p-3 flex justify-between items-center animate-fade-in-up">
+                        <div class="text-xs text-orange-800">
+                            <strong>Complaint Created!</strong><br>
+                            Convert this to a Task for staff?
+                        </div>
+                        <button (click)="createTaskFromComplaint()"
+                            class="bg-orange-600 text-white text-xs font-bold px-3 py-2 rounded shadow hover:bg-orange-700 transition">
+                            Create Task
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 text-center text-gray-400 text-xs">
+                * This simulator uses real backend logic but does not send actual WhatsApp messages.
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIG TAB -->
+    <div *ngIf="activeTab === 'config' && isConfigurable" class="form-card animate-fade-in-up">
+        <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+
+        <form (ngSubmit)="save()" #settingsForm="ngForm">
+
+            <!-- Twilio Section -->
+            <section>
+                <h3><i class="fas fa-key"></i> Twilio Connection</h3>
+                <div class="input-group">
+                    <label for="sid">Account SID</label>
+                    <input type="text" id="sid" [(ngModel)]="settings.accountSid" name="accountSid" placeholder="AC..."
+                        required>
+                </div>
+
+                <div class="input-group">
+                    <label for="token">Auth Token</label>
+                    <input type="password" id="token" [(ngModel)]="settings.authToken" name="authToken"
+                        placeholder="Auth Token" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="phone">WhatsApp Number</label>
+                    <input type="text" id="phone" [(ngModel)]="settings.phoneNumber" name="phoneNumber"
+                        placeholder="whatsapp:+91..." required>
+                    <small>Format: whatsapp:+91XXXXXXXXXX</small>
+                </div>
+            </section>
+
+            <!-- Welcome Messages Section -->
+            <section>
+                <h3><i class="fas fa-comment-dots"></i> Fallback Messages</h3>
+                <p class="section-desc">Customize global messages (e.g. Language Selection fallback).</p>
+
+                <div class="input-group">
+                    <label for="msgEn">Welcome (Legacy/Fallback)</label>
+                    <textarea id="msgEn" [(ngModel)]="settings.welcomeMsgEn" name="welcomeMsgEn" rows="2"
+                        placeholder="Welcome text..."></textarea>
+                </div>
+            </section>
+
+            <div class="actions">
+                <button type="submit" class="save-btn" [disabled]="isLoading">
+                    <span *ngIf="!isLoading">Save Configuration</span>
+                    <span *ngIf="isLoading">Saving...</span>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- FLOW BUILDER TAB -->
+    <div *ngIf="activeTab === 'flow' && isConfigurable" class="animate-fade-in-up">
+        <div class="flex h-[600px] border rounded-xl overflow-hidden bg-white shadow-xl">
+            <!-- Node List -->
+            <div class="w-1/4 bg-gray-50 border-r p-4 overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-gray-700">Nodes</h3>
+                    <button class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded" (click)="addNode()"
+                        [disabled]="!newNodeId">Add</button>
+                </div>
+                <div class="mb-4">
+                    <input type="text" [(ngModel)]="newNodeId" placeholder="New Node ID"
+                        class="w-full text-xs p-2 border rounded mb-2">
+                    <button (click)="loadSampleFlow()"
+                        class="w-full text-xs bg-blue-100 text-blue-700 py-1 rounded hover:bg-blue-200">
+                        <i class="fas fa-magic mr-1"></i> Load Sample Flow
+                    </button>
+                </div>
+                <div class="space-y-2">
+                    <div *ngFor="let node of flowNodes" (click)="selectNode(node)"
+                        class="p-3 bg-white rounded border cursor-pointer hover:bg-indigo-50 transition"
+                        [ngClass]="{'border-indigo-500 bg-indigo-50': selectedNode === node}">
+                        <div class="font-bold text-sm">{{ node.id }}</div>
+                        <div class="text-xs text-gray-500">{{ node.type }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Node Editor -->
+            <div class="w-3/4 p-6 overflow-y-auto" *ngIf="selectedNode">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">Edit Node: {{ selectedNode.id }}</h3>
+                    <button (click)="deleteNode(selectedNode)" class="text-red-500 hover:text-red-700 text-sm">Delete
+                        Node</button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Type</label>
+                        <select [(ngModel)]="selectedNode.type" class="w-full p-2 border rounded">
+                            <option value="MENU">Menu (Choices)</option>
+                            <option value="INPUT">User Input</option>
+                            <option value="SUBMIT_COMPLAINT">Submit Complaint Action</option>
+                        </select>
+                    </div>
+                    <div *ngIf="selectedNode.type !== 'MENU' && selectedNode.type !== 'SUBMIT_COMPLAINT'">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Next Node ID</label>
+                        <input type="text" [(ngModel)]="selectedNode.nextId" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Message (English)</label>
+                    <textarea [(ngModel)]="selectedNode.textEn" rows="2" class="w-full p-2 border rounded"></textarea>
+                </div>
+                <!-- Optional Localizations setup -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Message (Marathi - Optional)</label>
+                        <textarea [(ngModel)]="selectedNode.textMr" rows="2"
+                            class="w-full p-2 border rounded"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Message (Hindi - Optional)</label>
+                        <textarea [(ngModel)]="selectedNode.textHi" rows="2"
+                            class="w-full p-2 border rounded"></textarea>
+                    </div>
+                </div>
+
+                <!-- Input Specifics -->
+                <div *ngIf="selectedNode.type === 'INPUT'" class="bg-blue-50 p-4 rounded mb-4">
+                    <h4 class="font-bold text-sm mb-2 text-blue-800">Input Configuration</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Input Type</label>
+                            <select [(ngModel)]="selectedNode.inputType" class="w-full p-2 border rounded">
+                                <option value="text">Text</option>
+                                <option value="photo">Photo</option>
+                                <option value="location">Location</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1">Storage Key</label>
+                            <input type="text" [(ngModel)]="selectedNode.storageKey" placeholder="e.g. description"
+                                class="w-full p-2 border rounded">
+                            <small class="text-[10px] text-gray-500">Keys: name, description, photo, location,
+                                departmentId, complaintTypeId</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Options -->
+                <div *ngIf="selectedNode.type === 'MENU'" class="bg-gray-50 p-4 rounded mb-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-bold text-sm text-gray-700">Options</h4>
+                        <button (click)="addOption()" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">+
+                            Add Option</button>
+                    </div>
+                    <div *ngFor="let opt of selectedNode.options; let i = index"
+                        class="flex items-start space-x-2 mb-2">
+                        <span class="mt-2 text-xs font-bold text-gray-400">{{ i + 1 }}.</span>
+                        <div class="flex-1 space-y-1">
+                            <input type="text" [(ngModel)]="opt.labelEn" placeholder="Label (En)"
+                                class="w-full p-1 border rounded text-xs">
+                            <input type="text" [(ngModel)]="opt.nextId" placeholder="Next Node ID"
+                                class="w-full p-1 border rounded text-xs bg-yellow-50">
+                            <div class="flex space-x-1">
+                                <input type="text" [(ngModel)]="opt.value" placeholder="Value (Optional)"
+                                    class="w-1/2 p-1 border rounded text-xs">
+                                <select (change)="opt.value = $any($event.target).value"
+                                    class="w-1/2 p-1 border rounded text-xs bg-gray-50">
+                                    <option value="">Insert ID...</option>
+                                    <optgroup label="Departments">
+                                        <option *ngFor="let d of departments" [value]="d.id">{{ d.name }} ({{d.id}})
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="Complaint Types">
+                                        <option *ngFor="let t of complaintTypes" [value]="t.id">{{ t.name }} ({{t.id}})
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="Standard">
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                        <option value="en">English</option>
+                                        <option value="mr">Marathi</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <button (click)="removeOption(i)" class="text-red-500 hover:text-red-700">×</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="w-3/4 p-6 flex flex-col items-center justify-center text-gray-400" *ngIf="!selectedNode">
+                <i class="fas fa-project-diagram text-4xl mb-4"></i>
+                <p>Select a node to edit or create a new one.</p>
+            </div>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <button (click)="save()"
+                class="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 transition shadow">
+                Save Flow
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+{
+    "APP_TITLE": "Nagar Parishad Task Management",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "DASHBOARD": "Dashboard",
+    "TASKS": "Tasks",
+    "PROFILE": "Profile",
+    "LANGUAGE": "Language",
+    "GREETING": {
+        "MORNING": "Good Morning",
+        "AFTERNOON": "Good Afternoon",
+        "EVENING": "Good Evening",
+        "DAY": "Good Day"
+    },
+    "SECTIONS": {
+        "TASK_OVERVIEW": "Task Overview",
+        "MONTHLY_PERFORMANCE": "Monthly Tasks Performance",
+        "QUICK_TIP": "Quick Tip",
+        "QUICK_TIP_DESC": "Navigate to Tasks tab to view all your assignments and update their status."
+    },
+    "DEPARTMENTS": {
+        "PWD": "Public Works Department"
+    },
+    "STATUS": {
+        "TO_DO": "To Do",
+        "IN_PROGRESS": "In Progress",
+        "ON_HOLD": "On Hold",
+        "COMPLETED": "Completed"
+    },
+    "PRIORITY": {
+        "MINOR": "Minor",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "CRITICAL": "Critical"
+    },
+    "ROLES": {
+        "ADMIN": "Admin",
+        "DEPARTMENT_HEAD": "Department Head",
+        "STAFF": "Staff",
+        "OWNER": "Owner"
+    },
+    "COMMON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "DELETE": "Delete",
+        "EDIT": "Edit",
+        "VIEW": "View",
+        "SEARCH": "Search",
+        "FILTER": "Filter"
+    },
+    "CHIEF_OFFICER": "Chief Officer (CO)",
+    "SUPER_ADMIN": "Super Admin — Full Access",
+    "DEPT_HEAD": "Head of Department",
+    "MID_LEVEL_ADMIN": "Mid-Level Admin",
+    "EMPLOYEE": "Employee",
+    "FIELD_WORKER": "Field Workers / Staff Members",
+    "SELECT_ROLE": "Select your role to continue",
+    "CONTINUE_ROLE": "Continue as Selected Role",
+    "MAHARASHTRA_GOV": "Government of Maharashtra",
+    "NAGAR_PANCHAYAT": "Nagar Panchayat Administration",
+    "APP_SUBTITLE": "Government of Maharashtra",
+    "PROCESSING": "Processing...",
+    "CONTINUE_AS": "Continue",
+    "VERSION": "Version 1.0.0 powered by Government of Maharashtra",
+    "NAV_HOME": "Home",
+    "NAV_COMPLAINTS": "Complaints",
+    "NAV_TASKS": "Tasks",
+    "NAV_CHATBOT": "Chatbot",
+    "NAV_STAFF": "Staff",
+    "NAV_SETTINGS": "Settings",
+    "SEARCH_COMPLAINTS": "Search complaints by ID, citizen name...",
+    "LOGIN_HEADER": "Welcome Back",
+    "LOGIN_SUBTEXT": "Please sign in to continue",
+    "EMAIL_LABEL": "Email Address",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER_LOGIN": "Enter your password",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "SIGN_IN_BUTTON": "Sign In",
+    "SIGNING_IN": "Signing in...",
+    "MARATHI_TITLE": "MAHARASHTRA SHASAN"
+}

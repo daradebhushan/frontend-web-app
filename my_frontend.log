@@ -1,0 +1,401 @@
+
+> frontend@0.0.0 start
+> ng serve --port 4202
+
+[33m>[39m Building...
+[32m√[39m Building...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m                [2m | [22m[36m103.92 kB[39m[2m | [22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m              [2m | [22m [36m59.20 kB[39m[2m | [22m
+[32mchunk-PDCY3RGV.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m2.34 kB[39m[2m | [22m
+[32mchunk-SG2LYVAH.js[39m  [2m | [22m[2m-[22m                   [2m | [22m[36m894 bytes[39m[2m | [22m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m       [2m | [22m[1m166.35 kB[22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mchunk-B3I52S5J.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m74.71 kB[39m[2m | [22m
+[32mchunk-Z2M4CXR4.js[39m  [2m | [22m[2muser-list[22m           [2m | [22m [36m43.11 kB[39m[2m | [22m
+[32mchunk-LTSX7KCD.js[39m  [2m | [22m[2msettings[22m            [2m | [22m [36m42.57 kB[39m[2m | [22m
+[32mchunk-IJSYHNVG.js[39m  [2m | [22m[2mtask-form[22m           [2m | [22m [36m41.69 kB[39m[2m | [22m
+[32mchunk-IFU7XRY5.js[39m  [2m | [22m[2mtask-list[22m           [2m | [22m [36m36.92 kB[39m[2m | [22m
+[32mchunk-C3BRJSAY.js[39m  [2m | [22m[2mtask-board-component[22m[2m | [22m [36m33.81 kB[39m[2m | [22m
+[32mchunk-ONZTBU4H.js[39m  [2m | [22m[2mdepartment-list[22m     [2m | [22m [36m28.93 kB[39m[2m | [22m
+[32mchunk-7V5ERC6O.js[39m  [2m | [22m[2mrole-selection[22m      [2m | [22m [36m19.17 kB[39m[2m | [22m
+[32mchunk-6VRT4DKD.js[39m  [2m | [22m[2mcomplaint-list[22m      [2m | [22m [36m19.07 kB[39m[2m | [22m
+[32mchunk-CJIX6VKF.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m13.14 kB[39m[2m | [22m
+[32mchunk-Q734ODXA.js[39m  [2m | [22m[2mdesignation-manager[22m [2m | [22m [36m12.75 kB[39m[2m | [22m
+[32mchunk-DTJKSOVY.js[39m  [2m | [22m[2mprofile[22m             [2m | [22m  [36m8.41 kB[39m[2m | [22m
+[32mchunk-EL65GW67.js[39m  [2m | [22m[2mhome-redirect[22m       [2m | [22m  [36m3.54 kB[39m[2m | [22m
+[32mchunk-EGSLRFV5.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m3.17 kB[39m[2m | [22m
+[32mchunk-NALK73WJ.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m1.53 kB[39m[2m | [22m
+[2m...and 3 more lazy chunks files. Use "--verbose" to show all the files.[22m
+
+Application bundle generation complete. [8.200 seconds] - 2025-12-31T14:32:19.587Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:202:78:
+[37m      202 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m4202[22m/[39m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m    [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m     [2m | [22m[36m103.92 kB[39m[2m | [22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m    [2m | [22m [1mRaw size[22m
+[32mchunk-3NUWFSUK.js[39m  [2m | [22m[2mtask-list[22m[2m | [22m [36m37.28 kB[39m[2m | [22m
+
+Application bundle generation complete. [4.329 seconds] - 2025-12-31T18:51:56.646Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:202:78:
+[37m      202 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Page reload sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m                [2m | [22m[36m103.92 kB[39m[2m | [22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m              [2m | [22m [36m59.20 kB[39m[2m | [22m
+[32mchunk-PDCY3RGV.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m2.34 kB[39m[2m | [22m
+[32mchunk-SG2LYVAH.js[39m  [2m | [22m[2m-[22m                   [2m | [22m[36m894 bytes[39m[2m | [22m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m       [2m | [22m[1m166.35 kB[22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mchunk-B3I52S5J.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m74.71 kB[39m[2m | [22m
+[32mchunk-Z2M4CXR4.js[39m  [2m | [22m[2muser-list[22m           [2m | [22m [36m43.11 kB[39m[2m | [22m
+[32mchunk-LTSX7KCD.js[39m  [2m | [22m[2msettings[22m            [2m | [22m [36m42.57 kB[39m[2m | [22m
+[32mchunk-IJSYHNVG.js[39m  [2m | [22m[2mtask-form[22m           [2m | [22m [36m41.69 kB[39m[2m | [22m
+[32mchunk-3NUWFSUK.js[39m  [2m | [22m[2mtask-list[22m           [2m | [22m [36m37.28 kB[39m[2m | [22m
+[32mchunk-C3BRJSAY.js[39m  [2m | [22m[2mtask-board-component[22m[2m | [22m [36m33.81 kB[39m[2m | [22m
+[32mchunk-ONZTBU4H.js[39m  [2m | [22m[2mdepartment-list[22m     [2m | [22m [36m28.93 kB[39m[2m | [22m
+[32mchunk-7V5ERC6O.js[39m  [2m | [22m[2mrole-selection[22m      [2m | [22m [36m19.17 kB[39m[2m | [22m
+[32mchunk-6VRT4DKD.js[39m  [2m | [22m[2mcomplaint-list[22m      [2m | [22m [36m19.07 kB[39m[2m | [22m
+[32mchunk-CJIX6VKF.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m13.14 kB[39m[2m | [22m
+[32mchunk-Q734ODXA.js[39m  [2m | [22m[2mdesignation-manager[22m [2m | [22m [36m12.75 kB[39m[2m | [22m
+[32mchunk-DTJKSOVY.js[39m  [2m | [22m[2mprofile[22m             [2m | [22m  [36m8.41 kB[39m[2m | [22m
+[32mchunk-EL65GW67.js[39m  [2m | [22m[2mhome-redirect[22m       [2m | [22m  [36m3.54 kB[39m[2m | [22m
+[32mchunk-EGSLRFV5.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m3.17 kB[39m[2m | [22m
+[32mchunk-NALK73WJ.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m1.53 kB[39m[2m | [22m
+[2m...and 3 more lazy chunks files. Use "--verbose" to show all the files.[22m
+
+Application bundle generation complete. [0.726 seconds] - 2025-12-31T18:51:57.381Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:202:78:
+[37m      202 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Component update sent to client(s).
+[2m12:22:11 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ new dependencies optimized: [33mrxjs/operators[32m[39m
+[2m12:22:11 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [0.779 seconds] - 2025-12-31T18:57:10.356Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:202:78:
+[37m      202 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2003: No suitable injection token for parameter 'notificationService' of class 'MainLayout'.
+  Consider using the @Inject decorator to specify an injection token.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/layout/main-layout/main-layout.ts:21:12:
+[37m      21 │     private [32mnotificationService[37m: NotificationService
+         ╵             [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  This type does not have a value, so it cannot be used as injection token.
+
+    src/app/shared/layout/main-layout/main-layout.ts:21:33:
+[37m      21 │     private notificationService: [32mNotificationService[37m
+         ╵                                  [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2304: Cannot find name 'NotificationService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/layout/main-layout/main-layout.ts:21:33:
+[37m      21 │     private notificationService: [32mNotificationService[37m
+         ╵                                  [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'count' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/layout/main-layout/main-layout.ts:23:52:
+[37m      23 │ ...Service.unreadCount$.subscribe([32mcount[37m => this.unreadCount = count);
+         ╵                                   [32m~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m                [2m | [22m[36m106.88 kB[39m[2m | [22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m              [2m | [22m [36m59.20 kB[39m[2m | [22m
+[32mchunk-PDCY3RGV.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m2.34 kB[39m[2m | [22m
+[32mchunk-SG2LYVAH.js[39m  [2m | [22m[2m-[22m                   [2m | [22m[36m894 bytes[39m[2m | [22m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m       [2m | [22m[1m169.31 kB[22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mchunk-B3I52S5J.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m74.71 kB[39m[2m | [22m
+[32mchunk-Z2M4CXR4.js[39m  [2m | [22m[2muser-list[22m           [2m | [22m [36m43.11 kB[39m[2m | [22m
+[32mchunk-LTSX7KCD.js[39m  [2m | [22m[2msettings[22m            [2m | [22m [36m42.57 kB[39m[2m | [22m
+[32mchunk-IJSYHNVG.js[39m  [2m | [22m[2mtask-form[22m           [2m | [22m [36m41.69 kB[39m[2m | [22m
+[32mchunk-3NUWFSUK.js[39m  [2m | [22m[2mtask-list[22m           [2m | [22m [36m37.28 kB[39m[2m | [22m
+[32mchunk-C3BRJSAY.js[39m  [2m | [22m[2mtask-board-component[22m[2m | [22m [36m33.81 kB[39m[2m | [22m
+[32mchunk-ONZTBU4H.js[39m  [2m | [22m[2mdepartment-list[22m     [2m | [22m [36m28.93 kB[39m[2m | [22m
+[32mchunk-7V5ERC6O.js[39m  [2m | [22m[2mrole-selection[22m      [2m | [22m [36m19.17 kB[39m[2m | [22m
+[32mchunk-6VRT4DKD.js[39m  [2m | [22m[2mcomplaint-list[22m      [2m | [22m [36m19.07 kB[39m[2m | [22m
+[32mchunk-CJIX6VKF.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m13.14 kB[39m[2m | [22m
+[32mchunk-Q734ODXA.js[39m  [2m | [22m[2mdesignation-manager[22m [2m | [22m [36m12.75 kB[39m[2m | [22m
+[32mchunk-DTJKSOVY.js[39m  [2m | [22m[2mprofile[22m             [2m | [22m  [36m8.41 kB[39m[2m | [22m
+[32mchunk-EL65GW67.js[39m  [2m | [22m[2mhome-redirect[22m       [2m | [22m  [36m3.54 kB[39m[2m | [22m
+[32mchunk-EGSLRFV5.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m3.17 kB[39m[2m | [22m
+[32mchunk-NALK73WJ.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m1.53 kB[39m[2m | [22m
+[2m...and 3 more lazy chunks files. Use "--verbose" to show all the files.[22m
+
+Application bundle generation complete. [0.600 seconds] - 2025-12-31T18:57:23.497Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:202:78:
+[37m      202 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Page reload sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m  [2m | [22m[36m117.41 kB[39m[2m | [22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m[2m | [22m [36m60.23 kB[39m[2m | [22m
+
+Application bundle generation complete. [2.349 seconds] - 2025-12-31T18:57:26.802Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:202:78:
+[37m      202 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Stylesheet update sent to client(s).
+Component update sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m[2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m [2m | [22m[36m115.47 kB[39m[2m | [22m
+
+Application bundle generation complete. [3.078 seconds] - 2026-01-02T06:04:03.364Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:191:78:
+[37m      191 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Component update sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m[2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m [2m | [22m[36m115.65 kB[39m[2m | [22m
+
+Application bundle generation complete. [0.305 seconds] - 2026-01-02T06:04:03.677Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:191:78:
+[37m      191 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Page reload sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+Application bundle generation failed. [0.526 seconds] - 2026-01-02T06:04:05.365Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:191:78:
+[37m      191 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'markAllAsRead' does not exist on type 'MainLayout'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/layout/main-layout/main-layout.html:39:69:
+[37m      39 │ ...         <button *ngIf="unreadCount > 0" (click)="[32mmarkAllAsRead[37m()"
+         ╵                                                      [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component MainLayout.
+
+    src/app/shared/layout/main-layout/main-layout.ts:11:15:
+[37m      11 │   templateUrl: [32m'./main-layout.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m                [2m | [22m[36m117.22 kB[39m[2m | [22m
+[32mstyles.css[39m         [2m | [22m[2mstyles[22m              [2m | [22m [36m60.41 kB[39m[2m | [22m
+[32mchunk-PDCY3RGV.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m2.34 kB[39m[2m | [22m
+[32mchunk-SG2LYVAH.js[39m  [2m | [22m[2m-[22m                   [2m | [22m[36m894 bytes[39m[2m | [22m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m       [2m | [22m[1m180.86 kB[22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m               [2m | [22m [1mRaw size[22m
+[32mchunk-B3I52S5J.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m74.71 kB[39m[2m | [22m
+[32mchunk-Z2M4CXR4.js[39m  [2m | [22m[2muser-list[22m           [2m | [22m [36m43.11 kB[39m[2m | [22m
+[32mchunk-LTSX7KCD.js[39m  [2m | [22m[2msettings[22m            [2m | [22m [36m42.57 kB[39m[2m | [22m
+[32mchunk-IJSYHNVG.js[39m  [2m | [22m[2mtask-form[22m           [2m | [22m [36m41.69 kB[39m[2m | [22m
+[32mchunk-3NUWFSUK.js[39m  [2m | [22m[2mtask-list[22m           [2m | [22m [36m37.28 kB[39m[2m | [22m
+[32mchunk-C3BRJSAY.js[39m  [2m | [22m[2mtask-board-component[22m[2m | [22m [36m33.81 kB[39m[2m | [22m
+[32mchunk-ONZTBU4H.js[39m  [2m | [22m[2mdepartment-list[22m     [2m | [22m [36m28.93 kB[39m[2m | [22m
+[32mchunk-7V5ERC6O.js[39m  [2m | [22m[2mrole-selection[22m      [2m | [22m [36m19.17 kB[39m[2m | [22m
+[32mchunk-6VRT4DKD.js[39m  [2m | [22m[2mcomplaint-list[22m      [2m | [22m [36m19.07 kB[39m[2m | [22m
+[32mchunk-CJIX6VKF.js[39m  [2m | [22m[2m-[22m                   [2m | [22m [36m13.14 kB[39m[2m | [22m
+[32mchunk-Q734ODXA.js[39m  [2m | [22m[2mdesignation-manager[22m [2m | [22m [36m12.75 kB[39m[2m | [22m
+[32mchunk-DTJKSOVY.js[39m  [2m | [22m[2mprofile[22m             [2m | [22m  [36m8.41 kB[39m[2m | [22m
+[32mchunk-EL65GW67.js[39m  [2m | [22m[2mhome-redirect[22m       [2m | [22m  [36m3.54 kB[39m[2m | [22m
+[32mchunk-EGSLRFV5.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m3.17 kB[39m[2m | [22m
+[32mchunk-NALK73WJ.js[39m  [2m | [22m[2m-[22m                   [2m | [22m  [36m1.53 kB[39m[2m | [22m
+[2m...and 3 more lazy chunks files. Use "--verbose" to show all the files.[22m
+
+Application bundle generation complete. [0.500 seconds] - 2026-01-02T06:04:22.755Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:191:78:
+[37m      191 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Page reload sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m                [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m                 [2m | [22m[36m117.22 kB[39m[2m | [22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m                [2m | [22m [1mRaw size[22m
+[32mchunk-QQN43QYS.js[39m  [2m | [22m[2m-[22m                    [2m | [22m [36m74.71 kB[39m[2m | [22m
+[32mchunk-M7UP7JZI.js[39m  [2m | [22m[2mtask-form[22m            [2m | [22m [36m41.69 kB[39m[2m | [22m
+[32mchunk-NPP745VH.js[39m  [2m | [22m[2mtask-list[22m            [2m | [22m [36m37.28 kB[39m[2m | [22m
+[32mchunk-2PFBCKRV.js[39m  [2m | [22m[2mtask-board-component[22m [2m | [22m [36m33.81 kB[39m[2m | [22m
+[32mchunk-7BGYWV2N.js[39m  [2m | [22m[2m-[22m                    [2m | [22m  [36m3.27 kB[39m[2m | [22m
+[32mchunk-3EVELXZI.js[39m  [2m | [22m[2mtask-detail-component[22m[2m | [22m[36m228 bytes[39m[2m | [22m
+
+Application bundle generation complete. [1.532 seconds] - 2026-01-02T07:13:05.577Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:191:78:
+[37m      191 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Page reload sent to client(s).
+[33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m    [2m | [22m [1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m     [2m | [22m[36m117.22 kB[39m[2m | [22m
+
+[1mLazy chunk files[22m   [2m | [22m[1mNames[22m    [2m | [22m [1mRaw size[22m
+[32mchunk-AP3WXXAP.js[39m  [2m | [22m[2mtask-form[22m[2m | [22m [36m42.65 kB[39m[2m | [22m
+
+Application bundle generation complete. [0.783 seconds] - 2026-01-02T07:13:20.863Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/admin/dashboard/dashboard.html:191:78:
+[37m      191 │ ... font-black mb-2 relative z-10">{{ stats?.[32mtoDoTasks[37m || 0 }}</div>
+          ╵                                              [32m~~~~~~~~~[0m
+
+  Warning occurs in the template of component Dashboard.
+
+    src/app/features/admin/dashboard/dashboard.ts:10:15:
+[37m      10 │   templateUrl: [32m'./dashboard.html'[37m,
+         ╵                [32m~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+Page reload sent to client(s).

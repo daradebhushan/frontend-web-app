@@ -1,0 +1,251 @@
+<div class="min-h-screen bg-[#F8FAFC] font-sans">
+
+    <!-- Glassmorphism Header (Issue 10 - Removed sticky) -->
+    <div class="bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 py-3 shadow-sm transition-all duration-300">
+        <div class="max-w-3xl mx-auto">
+            <!-- Search Bar -->
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text" [ngModel]="searchText" (ngModelChange)="onSearch($event)"
+                    class="block w-full pl-11 pr-4 py-3 bg-gray-50 border-0 rounded-2xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-orange-500/20 focus:bg-white shadow-inner transition-all duration-300 sm:text-sm"
+                    [placeholder]="'SEARCH' | translate">
+
+                <!-- Language Toggle (Absolute Right) -->
+                <div class="absolute inset-y-0 right-2 flex items-center">
+                    <app-language-toggle></app-language-toggle>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 mt-6">
+
+
+        <!-- Segmented Control (Complaint vs Internal) -->
+        <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100 mb-6 flex relative overflow-hidden">
+            <button (click)="setType('Complaint')"
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10"
+                [ngClass]="taskType === 'Complaint' ? 'text-white shadow-md bg-gradient-to-r from-orange-500 to-orange-600' : 'text-gray-500 hover:bg-gray-50'">
+                {{ 'TYPE_COMPLAINT' | translate }}
+            </button>
+            <button (click)="setType('Internal')"
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10"
+                [ngClass]="taskType === 'Internal' ? 'text-white shadow-md bg-gradient-to-r from-orange-500 to-orange-600' : 'text-gray-500 hover:bg-gray-50'">
+                {{ 'TYPE_DIRECT' | translate }}
+            </button>
+        </div>
+
+        <!-- Filters Toggle (Issue 11 - Grouped) -->
+        <div class="mb-6 relative">
+            <button (click)="showFilters = !showFilters"
+                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
+                    <span>Filters ({{ (priorityFilter ? 1 : 0) + (statusFilter ? 1 : 0) }})</span>
+                </div>
+                <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" [class.rotate-180]="showFilters"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+
+            <!-- Filter Content -->
+            <div *ngIf="showFilters"
+                class="mt-2 bg-white rounded-xl shadow-xl border border-gray-100 p-4 animate-fade-in-down">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Priority Filter -->
+                    <div class="relative">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">{{ 'PRIORITY' |
+                            translate }}</label>
+                        <select [(ngModel)]="priorityFilter" (change)="loadTasks()"
+                            class="block w-full px-3 py-2 text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 appearance-none transition-all">
+                            <option value="">{{ 'ALL' | translate }}</option>
+                            <option value="CRITICAL">{{ 'PRIORITY_CRITICAL' | translate }}</option>
+                            <option value="HIGH">{{ 'PRIORITY_HIGH' | translate }}</option>
+                            <option value="MEDIUM">{{ 'PRIORITY_MEDIUM' | translate }}</option>
+                            <option value="LOW">{{ 'PRIORITY_LOW' | translate }}</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none mt-5">
+                            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Status Filter -->
+                    <div class="relative">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">{{ 'STATUS' | translate
+                            }}</label>
+                        <select [(ngModel)]="statusFilter" (change)="loadTasks()"
+                            class="block w-full px-3 py-2 text-xs font-semibold bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 appearance-none transition-all">
+                            <option value="">{{ 'ALL' | translate }}</option>
+                            <option value="TO_DO">{{ 'STATUS_TO_DO' | translate }}</option>
+                            <option value="IN_PROGRESS">{{ 'STATUS_IN_PROGRESS' | translate }}</option>
+                            <option value="ON_HOLD">{{ 'STATUS_ON_HOLD' | translate }}</option>
+                            <option value="COMPLETED">{{ 'STATUS_COMPLETED' | translate }}</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none mt-5">
+                            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex space-x-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+            <button *ngFor="let tab of tabs" (click)="setTab(tab.label)"
+                class="px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 border flex items-center space-x-2 whitespace-nowrap"
+                [ngClass]="activeTab === tab.label 
+                    ? 'bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-900/20 transform scale-105' 
+                    : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:bg-gray-50'">
+                <span>{{ tab.label | translate }}</span>
+                <span [ngClass]="activeTab === tab.label ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-400'"
+                    class="px-1.5 py-0.5 rounded-md text-[10px] ml-1 transition-colors">
+                    {{ tab.count }}
+                </span>
+            </button>
+        </div>
+
+        <!-- Task List -->
+        <div class="space-y-5">
+            <div *ngFor="let task of tasks"
+                class="group bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden cursor-pointer"
+                (click)="navigateToTask(task)">
+
+                <!-- Priority Gradient Line -->
+                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b" [ngClass]="{
+                    'from-red-500 to-red-600': task.priority === 'CRITICAL',
+                    'from-orange-400 to-orange-500': task.priority === 'HIGH',
+                    'from-green-400 to-green-500': task.priority === 'LOW',
+                    'from-yellow-400 to-yellow-500': task.priority === 'MEDIUM'
+                }"></div>
+
+                <!-- Header Row -->
+                <div class="flex justify-between items-start mb-3 pl-2">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-gray-400 mb-0.5">NP/2025/T-{{
+                            task.id }}</span>
+                        <h3
+                            class="text-base font-bold text-gray-900 leading-snug group-hover:text-orange-600 transition-colors">
+                            {{ task.title }}
+                        </h3>
+                    </div>
+
+                    <!-- Actions (Visible on Hover/Touch) -->
+                    <div
+                        class="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <button (click)="$event.stopPropagation(); onEdit(task)"
+                            class="p-2 rounded-full hover:bg-blue-50 text-blue-500 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                </path>
+                            </svg>
+                        </button>
+                        <button (click)="$event.stopPropagation(); onDelete(task)"
+                            class="p-2 rounded-full hover:bg-red-50 text-red-500 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Meta Info Grid -->
+                <div class="grid grid-cols-2 gap-y-2 gap-x-4 pl-2 mb-4">
+                    <!-- Due Date -->
+                    <div class="flex items-center text-xs text-gray-500">
+                        <svg class="w-3.5 h-3.5 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <span [ngClass]="{'text-red-500 font-semibold': isOverdue(task)}">{{ task.dueDate | date:'d MMM
+                            y' }}</span>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="flex items-center text-xs text-gray-500">
+                        <svg class="w-3.5 h-3.5 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="truncate">Shivaji Chowk, Ward 3</span>
+                    </div>
+                </div>
+
+                <!-- Footer: Avatar & Status -->
+                <div class="flex items-center justify-between pl-2 pt-3 border-t border-gray-50">
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="w-6 h-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-600 border border-white shadow-sm ring-1 ring-gray-100">
+                            {{ (task.assignedStaff?.name || 'U').charAt(0) }}
+                        </div>
+                        <span class="text-xs font-medium text-gray-600">{{ task.assignedStaff?.name || 'Unassigned'
+                            }}</span>
+                    </div>
+
+                    <!-- Status Badge -->
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm"
+                        [ngClass]="{
+                        'bg-blue-50 text-blue-600 ring-1 ring-blue-500/20': task.status === 'IN_PROGRESS',
+                        'bg-green-50 text-green-600 ring-1 ring-green-500/20': task.status === 'COMPLETED',
+                        'bg-gray-100 text-gray-600 ring-1 ring-gray-500/20': task.status === 'TO_DO'
+                    }">
+                        {{ ('STATUS_' + task.status) | translate }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination (Modern) -->
+        <div class="mt-8 flex justify-center items-center space-x-4" *ngIf="totalPages > 1">
+            <button (click)="prevPage()" [disabled]="currentPage === 0"
+                class="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-white hover:shadow-md disabled:opacity-30 disabled:hover:shadow-none transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <span
+                class="text-sm font-medium text-gray-500 bg-white px-4 py-1 rounded-full shadow-sm border border-gray-100">
+                Page {{ currentPage + 1 }} / {{ totalPages }}
+            </span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1"
+                class="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-white hover:shadow-md disabled:opacity-30 disabled:hover:shadow-none transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Premium FAB (Gradient & Glow) -->
+<a routerLink="/tasks/create"
+    class="fixed bottom-28 right-6 w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-full shadow-lg shadow-orange-500/40 flex items-center justify-center hover:scale-110 hover:shadow-orange-500/50 transition-all duration-300 z-[60] group">
+    <svg class="w-8 h-8 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+    </svg>
+</a>

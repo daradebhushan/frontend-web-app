@@ -1,0 +1,105 @@
+<!-- Form Body (No External Modal Wrapper) -->
+<form (ngSubmit)="onSubmit()" class="flex flex-col space-y-4">
+    <div *ngIf="error" class="bg-red-50 text-red-600 p-3 rounded-lg text-xs font-semibold">
+        {{ error }}
+    </div>
+
+    <!-- Name -->
+    <div>
+        <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{ 'NAME_LABEL' | translate
+            }} *</label>
+        <input type="text" [(ngModel)]="formData.name" name="name" required
+            [placeholder]="'FULL_NAME_PLACEHOLDER' | translate"
+            class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+    </div>
+
+    <!-- Contact -->
+    <div>
+        <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{ 'CONTACT_NUMBER' |
+            translate }} *</label>
+        <input type="tel" [(ngModel)]="formData.mobile" name="mobile" required
+            [placeholder]="'MOBILE_PLACEHOLDER' | translate"
+            class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+    </div>
+
+    <!-- Email -->
+    <div>
+        <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{ 'EMAIL' | translate
+            }}</label>
+        <input type="email" [(ngModel)]="formData.email" name="email" required placeholder="email@example.com"
+            class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+    </div>
+
+    <!-- Password -->
+    <div>
+        <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{ 'PASSWORD' | translate }}
+            ({{userToEdit ? ('OPTIONAL' | translate) : 'Default: Welcome@123'}})</label>
+        <input type="password" [(ngModel)]="formData.password" name="password"
+            [placeholder]="'PASSWORD_PLACEHOLDER_EDIT' | translate"
+            class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+    </div>
+
+    <!-- Role -->
+    <div>
+        <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{ 'ROLE' | translate }}
+            *</label>
+        <div class="relative">
+            <select [(ngModel)]="formData.role" name="role" required
+                class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 outline-none appearance-none transition">
+                <option value="STAFF">{{ 'ROLE_STAFF' | translate }}</option>
+                <option value="DEPARTMENT_HEAD">{{ 'ROLE_DEPT_HEAD' | translate }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department -->
+    <div>
+        <div class="flex justify-between items-center mb-1.5">
+            <label class="block text-xs font-bold text-gray-900 uppercase tracking-wide">{{ 'DEPARTMENT_LABEL' |
+                translate }} *</label>
+            <button type="button" (click)="toggleAddDept()" class="text-xs text-saffron-600 font-bold hover:underline">
+                {{ (showAddDept ? 'CANCEL' : 'NEW_DEPARTMENT') | translate }}
+            </button>
+        </div>
+
+        <!-- Add New Department Inline Form -->
+        <div *ngIf="showAddDept" class="mb-2 flex space-x-2 animate-fade-in-up">
+            <input type="text" [(ngModel)]="newDeptName" [ngModelOptions]="{standalone: true}"
+                [placeholder]="'ENTER_DEPT_NAME' | translate"
+                class="flex-1 bg-white border border-gray-200 rounded-lg py-2 px-3 text-xs outline-none focus:border-saffron-500">
+            <button type="button" (click)="saveNewDepartment()" [disabled]="!newDeptName"
+                class="bg-gray-900 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-black disabled:opacity-50">
+                {{ 'SAVE' | translate }}
+            </button>
+        </div>
+
+        <div class="relative">
+            <select [(ngModel)]="formData.departmentId" name="departmentId" required
+                class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 outline-none appearance-none transition">
+                <option [ngValue]="null" disabled selected>{{ 'SELECT_DEPARTMENT' | translate }}</option>
+                <option *ngFor="let dept of departments" [ngValue]="dept.id">{{ dept.name }}</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Designation (Hidden) -->
+    <input type="hidden" [(ngModel)]="formData.designationId" name="designation" [value]="1">
+
+    <!-- Submit Button -->
+    <div class="pt-4 border-t border-gray-100 flex justify-end space-x-3">
+        <button type="submit" [disabled]="loading"
+            class="w-full px-6 py-2.5 bg-saffron-600 hover:bg-saffron-700 text-white font-bold rounded-lg shadow-md transition transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+            {{ (loading ? 'SAVING' : (userToEdit ? 'UPDATE_EMPLOYEE' : 'ADD_EMPLOYEE')) | translate }}
+        </button>
+    </div>
+</form>

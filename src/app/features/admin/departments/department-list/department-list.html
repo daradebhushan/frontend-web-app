@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-gray-50 font-sans pb-24">
+    <!-- Header with 'Add' button - Updated for Edit/Delete -->
+
+    <!-- Tab Switcher (Depts vs Employees) -->
+    <div class="bg-white px-4 pt-2 shadow-sm border-b border-gray-100 mb-4 sticky top-0 z-40">
+        <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100 mb-4 flex relative overflow-hidden">
+            <a routerLink="/admin/departments"
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-white shadow-md bg-gradient-to-r from-orange-500 to-orange-600">
+                {{ 'DEPARTMENTS_TITLE' | translate }}
+            </a>
+            <a routerLink="/admin/users"
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-gray-500 hover:bg-gray-50">
+                {{ 'EMPLOYEES' | translate }}
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats/Context -->
+    <div class="px-4 mb-4 flex justify-between items-center">
+        <span class="text-xs text-gray-500 font-medium">{{ departments.length }} {{ 'ACTIVE_DEPARTMENTS_COUNT' |
+            translate }}</span>
+        <button (click)="seedDefaults()"
+            class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition">
+            <span class="mr-1">⚡</span> Seed Defaults
+        </button>
+    </div>
+
+    <!-- Create/Edit Form Modal -->
+    <div *ngIf="showForm"
+        class="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+        <div
+            class="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-100">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h3 class="font-bold text-gray-900">{{ (selectedDepartment ? 'EDIT_DEPARTMENT' : 'ADD_DEPARTMENT') |
+                    translate }}</h3>
+                <button (click)="showForm = false"
+                    class="text-gray-400 hover:text-gray-600 font-bold p-1 rounded-full hover:bg-gray-200 transaction">✕</button>
+            </div>
+            <div class="p-6">
+                <!-- Pass selectedDepartment to form -->
+                <app-department-form [department]="selectedDepartment"
+                    (created)="onDepartmentCreated()"></app-department-form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid List -->
+    <div class="px-4 space-y-3">
+        <div *ngFor="let dept of departments"
+            class="bg-white rounded-xl border border-gray-100 p-4 shadow-sm relative group hover:shadow-md transition duration-200">
+
+            <div class="flex items-start justify-between">
+                <div class="flex items-start space-x-4">
+                    <!-- Icon Box -->
+                    <div
+                        class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2-2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                            </path>
+                        </svg>
+                    </div>
+
+                    <div>
+                        <!-- Title -->
+                        <h3 class="text-sm font-bold text-gray-900 mb-0.5">{{ dept.name }}</h3>
+                        <!-- Subtext -->
+                        <div class="flex items-center text-xs text-gray-500 space-x-1">
+                            <span class="w-2 h-2 rounded-full"
+                                [ngClass]="dept.active ? 'bg-green-500' : 'bg-red-500'"></span>
+                            <span>{{ (dept.active ? 'ACTIVE' : 'INACTIVE') | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons: Edit/Delete -->
+                <div class="flex items-start space-x-1">
+                    <button (click)="openForm(dept)"
+                        class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                        title="Edit">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button (click)="deleteDepartment(dept.id)"
+                        class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                        title="Delete">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Footer -->
+            <div class="mt-3 pt-3 border-t border-gray-50 flex items-center justify-between">
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{{ 'CREATED' | translate }}:
+                    {{ dept.createdAt |
+                    date:'shortDate' }}</span>
+                <span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">{{ 'TEAM_ID' |
+                    translate }}: {{ dept.id
+                    }}</span>
+            </div>
+
+        </div>
+    </div>
+    <!-- Floating Action Button -->
+    <button (click)="openForm()"
+        class="fixed bottom-24 right-4 bg-orange-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-700 transition z-40">
+        <span class="text-2xl font-light mb-1">+</span>
+    </button>
+</div>

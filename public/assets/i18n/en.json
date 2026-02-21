@@ -1,0 +1,51 @@
+{
+    "APP_TITLE": "Nagar Parishad Task Management",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "DASHBOARD": "Dashboard",
+    "TASKS": "Tasks",
+    "PROFILE": "Profile",
+    "LANGUAGE": "Language",
+    "STATUS": {
+        "TO_DO": "To Do",
+        "IN_PROGRESS": "In Progress",
+        "ON_HOLD": "On Hold",
+        "COMPLETED": "Completed"
+    },
+    "PRIORITY": {
+        "MINOR": "Minor",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "CRITICAL": "Critical"
+    },
+    "ROLES": {
+        "ADMIN": "Admin",
+        "DEPARTMENT_HEAD": "Department Head",
+        "STAFF": "Staff",
+        "OWNER": "Owner"
+    },
+    "COMMON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "DELETE": "Delete",
+        "EDIT": "Edit",
+        "VIEW": "View",
+        "SEARCH": "Search",
+        "FILTER": "Filter"
+    },
+    "CHIEF_OFFICER": "Chief Officer (CO)",
+    "SUPER_ADMIN": "Super Admin — Full Access",
+    "DEPT_HEAD": "Head of Department",
+    "MID_LEVEL_ADMIN": "Mid-Level Admin",
+    "EMPLOYEE": "Employee",
+    "FIELD_WORKER": "Field Workers / Staff Members",
+    "SELECT_ROLE": "Select your role to continue",
+    "CONTINUE_ROLE": "Continue as Selected Role",
+    "MAHARASHTRA_GOV": "Government of Maharashtra",
+    "NAGAR_PANCHAYAT": "Nagar Panchayat Administration",
+    "APP_SUBTITLE": "Government of Maharashtra",
+    "PROCESSING": "Processing...",
+    "CONTINUE_AS": "Continue",
+    "VERSION": "Version 1.0.0 powered by Government of Maharashtra"
+}
