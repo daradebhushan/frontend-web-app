@@ -82,6 +82,11 @@ export class Dashboard implements OnInit {
     });
   }
 
+  get isAdmin(): boolean {
+    const user = this.authService.currentUserValue;
+    return user?.roles.includes('OWNER') || user?.roles.includes('ADMIN') || false;
+  }
+
   getIconForDepartment(name: string): string {
     const lower = name.toLowerCase();
     if (lower.includes('water')) return 'drop';

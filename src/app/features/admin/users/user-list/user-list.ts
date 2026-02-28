@@ -119,7 +119,7 @@ export class UserListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to delete user', err);
-        alert('Failed to delete user.');
+        alert(err.error?.message || 'Failed to delete user.');
       }
     });
   }

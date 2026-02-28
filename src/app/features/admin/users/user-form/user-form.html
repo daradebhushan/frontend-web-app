@@ -92,8 +92,13 @@
         </div>
     </div>
 
-    <!-- Designation (Hidden) -->
-    <input type="hidden" [(ngModel)]="formData.designationId" name="designation" [value]="1">
+    <!-- Designation -->
+    <div>
+        <label class="block text-xs font-bold text-gray-900 mb-1.5 uppercase tracking-wide">{{ 'DESIGNATION' | translate
+            }}</label>
+        <input type="text" [(ngModel)]="formData.designation" name="designation" [placeholder]="'e.g. Senior Engineer'"
+            class="w-full bg-white border border-gray-200 focus:border-saffron-500 focus:ring-1 focus:ring-saffron-200 rounded-lg py-2.5 px-4 text-sm text-gray-900 placeholder-gray-400 outline-none transition">
+    </div>
 
     <!-- Submit Button -->
     <div class="pt-4 border-t border-gray-100 flex justify-end space-x-3">

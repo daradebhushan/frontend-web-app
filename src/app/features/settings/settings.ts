@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth';
+import { UserService } from '../../services/user.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -61,7 +62,13 @@ export class SettingsComponent implements OnInit {
 
     user: any = null;
 
-    constructor(private authService: AuthService, private router: Router, private http: HttpClient, private cdr: ChangeDetectorRef) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private http: HttpClient,
+        private cdr: ChangeDetectorRef,
+        private userService: UserService
+    ) { }
 
     ngOnInit() {
         this.authService.user$.subscribe(user => {
@@ -70,17 +77,12 @@ export class SettingsComponent implements OnInit {
                 this.user = user;
                 this.username = user.username || ''; // Ensure fallback
                 this.userRole = user.roles?.[0] || 'Nagar Panchayat';
+                if (user.organizationName) this.orgName = user.organizationName;
+                if (user.organizationLogo) this.orgLogo = user.organizationLogo;
                 console.log('DEBUG: Settings Username derived:', this.username);
                 console.log('DEBUG: Settings Initials derived:', this.getInitials());
             }
         });
-
-        // Load saved settings from local storage for demo persistence
-        const savedName = localStorage.getItem('orgName');
-        if (savedName) this.orgName = savedName;
-
-        const savedLogo = localStorage.getItem('orgLogo');
-        if (savedLogo) this.orgLogo = savedLogo;
 
         if (this.isAdmin) {
             this.loadChatbotSettings();
@@ -169,11 +171,30 @@ export class SettingsComponent implements OnInit {
             this.orgLogo = this.editLogoPreview;
         }
 
-        // Persist
-        localStorage.setItem('orgName', this.orgName);
-        if (this.orgLogo) localStorage.setItem('orgLogo', this.orgLogo);
+        const updateData = {
+            organizationName: this.orgName,
+            organizationLogo: this.orgLogo
+        };
 
-        this.closeEditModal();
+        this.userService.updateProfile(updateData).subscribe({
+            next: (res) => {
+                if (res.success && res.data && res.data.user) {
+                    this.authService.updateUserSubject(res.data.user);
+
+                    // Note: Ideally, the whole app updates on userSubject emission,
+                    // but sometimes a full reload helps if it's deeply localized.
+                    this.closeEditModal();
+                } else {
+                    alert('Profile updated, but failed to sync locally.');
+                    this.closeEditModal();
+                    window.location.reload();
+                }
+            },
+            error: (err) => {
+                console.error('Failed to update profile', err);
+                alert('Failed to update profile');
+            }
+        });
     }
 
     get isAdmin(): boolean {

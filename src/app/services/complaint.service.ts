@@ -22,6 +22,7 @@ export interface Complaint {
     departmentId?: number;
     departmentName?: string;
     complaintType?: ComplaintType;
+    complaintTypeName?: string;
     description: string;
     photoUrl: string;
     location: string;

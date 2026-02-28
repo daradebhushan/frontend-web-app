@@ -96,7 +96,7 @@ export class Login {
           }
         },
         error: (err) => {
-          this.error = 'Invalid credentials';
+          this.error = err.error?.message || 'Wrong credentials';
           console.error('Login failed', err);
           this.cdr.detectChanges();
         }

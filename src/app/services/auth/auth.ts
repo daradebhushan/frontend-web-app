@@ -10,6 +10,8 @@ export interface User {
   email: string;
   roles: string[];
   departmentId?: number;
+  organizationName?: string;
+  organizationLogo?: string;
 }
 
 export interface AuthResponse {
@@ -20,6 +22,8 @@ export interface AuthResponse {
   email: string;
   roles: string[];
   departmentId?: number;
+  organizationName?: string;
+  organizationLogo?: string;
 }
 
 import { environment } from '../../../environments/environment';
@@ -87,7 +91,9 @@ export class AuthService {
       username: data.username,
       email: data.email,
       roles: data.roles,
-      departmentId: data.departmentId
+      departmentId: data.departmentId,
+      organizationName: data.organizationName,
+      organizationLogo: data.organizationLogo
     });
   }
 
@@ -100,7 +106,9 @@ export class AuthService {
         username: parsed.username,
         email: parsed.email,
         roles: parsed.roles,
-        departmentId: parsed.departmentId
+        departmentId: parsed.departmentId,
+        organizationName: parsed.organizationName,
+        organizationLogo: parsed.organizationLogo
       });
     }
   }
@@ -118,7 +126,9 @@ export class AuthService {
       username: user.name,
       email: user.email,
       roles: [user.role],
-      departmentId: user.department?.id
+      departmentId: user.department?.id,
+      organizationName: user.organizationName,
+      organizationLogo: user.organizationLogo
     };
     this.saveToken(authData);
   }
@@ -135,6 +145,8 @@ export class AuthService {
       parsed.username = user.name || user.username || parsed.username; // Handle 'name' vs 'username'
       parsed.email = user.email || parsed.email;
       if (user.role) parsed.roles = [user.role]; // Backend sends single role, frontend expects array? Check interface.
+      if (user.organizationName) parsed.organizationName = user.organizationName;
+      if (user.organizationLogo !== undefined) parsed.organizationLogo = user.organizationLogo;
 
       // Save back
       localStorage.setItem(AUTH_DATA, JSON.stringify(parsed));
@@ -145,7 +157,9 @@ export class AuthService {
         username: parsed.username,
         email: parsed.email,
         roles: parsed.roles,
-        departmentId: parsed.departmentId
+        departmentId: parsed.departmentId,
+        organizationName: parsed.organizationName,
+        organizationLogo: parsed.organizationLogo
       });
     }
   }

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router'; // Added Router
 import { TranslatePipe } from '../../../core/pipes/translate.pipe';
 import { ComplaintService, Complaint } from '../../../services/complaint.service';
+import { AuthService } from '../../../services/auth/auth';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { finalize } from 'rxjs/operators';
@@ -52,8 +53,14 @@ export class ComplaintListComponent implements OnInit, OnDestroy {
     constructor(
         private complaintService: ComplaintService,
         private cdr: ChangeDetectorRef,
-        private router: Router // Added
+        private router: Router,
+        private authService: AuthService
     ) { }
+
+    get isAdmin(): boolean {
+        const user = this.authService.currentUserValue;
+        return user?.roles.includes('OWNER') || user?.roles.includes('ADMIN') || false;
+    }
 
     viewDetails(complaint: Complaint) {
         this.router.navigate(['/complaints', complaint.id]);

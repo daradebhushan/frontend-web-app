@@ -221,15 +221,18 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(task: Task) {
-    // if (confirm('Are you sure you want to delete this task?')) {
-    this.taskService.deleteTask(task.id).subscribe({
-      next: () => {
-        this.loadTasks(); // Refresh list
-        this.updateTabCounts(); // Refresh counts
-      },
-      error: (err) => console.error('Failed to delete task', err)
-    });
-    // }
+    if (confirm('Are you sure you want to delete this task?')) {
+      this.taskService.deleteTask(task.id).subscribe({
+        next: () => {
+          this.loadTasks(); // Refresh list
+          this.updateTabCounts(); // Refresh counts
+        },
+        error: (err) => {
+          console.error('Failed to delete task', err);
+          alert(err.error?.message || 'Failed to delete task');
+        }
+      });
+    }
   }
 
   nextPage() {

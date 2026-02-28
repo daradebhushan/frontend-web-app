@@ -17,7 +17,7 @@ export interface ChatbotSettings {
     providedIn: 'root'
 })
 export class ChatbotService {
-    private apiUrl = `${environment.apiUrl}/admin/chatbot/settings`;
+    private apiUrl = `${environment.apiUrl}/api/admin/chatbot/settings`;
 
     constructor(private http: HttpClient) { }
 
@@ -30,7 +30,7 @@ export class ChatbotService {
     }
 
     simulateChat(message: string, adminId: number = 1, mediaUrl?: string): Observable<any> {
-        return this.http.post(`${environment.apiUrl}/admin/bot-sim/interact`, {
+        return this.http.post(`${environment.apiUrl}/api/admin/bot-sim/interact`, {
             mobile: 'SIM_USER',
             message: message,
             adminId: adminId,
@@ -42,6 +42,6 @@ export class ChatbotService {
     uploadFile(file: File): Observable<any> {
         const formData = new FormData();
         formData.append('file', file);
-        return this.http.post<any>(`${environment.apiUrl}/admin/bot-sim/upload`, formData);
+        return this.http.post<any>(`${environment.apiUrl}/api/admin/bot-sim/upload`, formData);
     }
 }

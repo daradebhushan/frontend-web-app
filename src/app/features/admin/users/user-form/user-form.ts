@@ -26,10 +26,8 @@ export class UserFormComponent implements OnInit, OnChanges {
     mobile: '',
     role: 'STAFF', // Default
     departmentId: null as number | null,
-    designationId: null as number | null
+    designation: ''
   };
-
-  designations: Designation[] = [];
   loading = false;
   error: string | null = null;
 
@@ -46,14 +44,19 @@ export class UserFormComponent implements OnInit, OnChanges {
     if (!this.departments || this.departments.length === 0) {
       this.loadDepartments();
     }
-    this.designationService.getAllDesignations().subscribe(res => {
-      if (res.success) this.designations = res.data || [];
-    });
   }
 
   loadDepartments() {
     this.departmentService.getAllDepartments().subscribe(res => {
-      if (res.success) this.departments = res.data.content || [];
+      if (res.success) {
+        if (res.data && res.data.content) {
+          this.departments = res.data.content;
+        } else if (Array.isArray(res.data)) {
+          this.departments = res.data;
+        } else {
+          this.departments = [];
+        }
+      }
     });
   }
 
@@ -99,11 +102,11 @@ export class UserFormComponent implements OnInit, OnChanges {
         mobile: this.userToEdit.mobile,
         role: this.userToEdit.role,
         departmentId: this.userToEdit.department ? this.userToEdit.department.id : null,
-        designationId: this.userToEdit.designation ? this.userToEdit.designation.id : null
+        designation: this.userToEdit.designation || ''
       };
     } else if (changes['userToEdit'] && !this.userToEdit) {
       // Reset form if passed null
-      this.formData = { name: '', email: '', password: '', mobile: '', role: 'STAFF', departmentId: null, designationId: null };
+      this.formData = { name: '', email: '', password: '', mobile: '', role: 'STAFF', departmentId: null, designation: '' };
     }
   }
 
@@ -137,10 +140,13 @@ export class UserFormComponent implements OnInit, OnChanges {
         this.formData.password = 'Welcome@123';
       }
 
+      this.formData.email = this.formData.email.trim();
+      this.formData.mobile = this.formData.mobile.trim();
+
       this.userService.createUser(this.formData).subscribe({
         next: (res) => {
           if (res.success) {
-            this.formData = { name: '', email: '', password: '', mobile: '', role: 'STAFF', departmentId: null, designationId: null };
+            this.formData = { name: '', email: '', password: '', mobile: '', role: 'STAFF', departmentId: null, designation: '' };
             this.created.emit();
           } else {
             this.error = res.message;
@@ -148,7 +154,7 @@ export class UserFormComponent implements OnInit, OnChanges {
           this.loading = false;
         },
         error: (err) => {
-          this.error = 'Failed to create user. Ensure email is unique.';
+          this.error = err.error?.message || 'Failed to create user. Ensure email is unique.';
           this.loading = false;
         }
       });

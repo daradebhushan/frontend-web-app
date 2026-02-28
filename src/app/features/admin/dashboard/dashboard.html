@@ -20,7 +20,7 @@
     <div class="max-w-6xl mx-auto p-6 space-y-8" *ngIf="stats">
 
         <!-- Quick Actions Section (Issue 3 - New Section) -->
-        <div
+        <div *ngIf="isAdmin"
             class="bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-sm border border-orange-100 dark:border-gray-800 flex items-center justify-between">
             <div>
                 <h3 class="font-bold text-gray-900 dark:text-white text-sm">{{ 'QUICK_ACTIONS' | translate }}</h3>

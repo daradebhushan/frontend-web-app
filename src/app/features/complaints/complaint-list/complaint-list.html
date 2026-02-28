@@ -106,14 +106,16 @@
                     class="flex-1 bg-gray-50 text-gray-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition border border-gray-200">
                     View Details
                 </button>
-                <button (click)="$event.stopPropagation(); acceptComplaint(complaint)"
-                    class="flex-1 bg-green-50 text-green-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-green-100 transition border border-green-200">
-                    Accept
-                </button>
-                <button (click)="$event.stopPropagation(); openRejectModal(complaint)"
-                    class="flex-1 bg-red-50 text-red-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-red-100 transition border border-red-200">
-                    Reject
-                </button>
+                <ng-container *ngIf="isAdmin">
+                    <button (click)="$event.stopPropagation(); acceptComplaint(complaint)"
+                        class="flex-1 bg-green-50 text-green-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-green-100 transition border border-green-200">
+                        Accept
+                    </button>
+                    <button (click)="$event.stopPropagation(); openRejectModal(complaint)"
+                        class="flex-1 bg-red-50 text-red-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-red-100 transition border border-red-200">
+                        Reject
+                    </button>
+                </ng-container>
             </div>
 
             <div *ngIf="complaint.status === 'REJECTED' && complaint.rejectionReason"
@@ -127,7 +129,7 @@
                         class="flex-1 bg-gray-50 text-gray-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition border border-gray-200">
                         View Details
                     </button>
-                    <button (click)="$event.stopPropagation(); openTaskModal(complaint)"
+                    <button *ngIf="isAdmin" (click)="$event.stopPropagation(); openTaskModal(complaint)"
                         class="flex-1 bg-blue-50 text-blue-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-blue-100 transition border border-blue-200 flex items-center justify-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

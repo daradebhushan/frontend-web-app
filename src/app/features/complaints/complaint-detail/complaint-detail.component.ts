@@ -152,9 +152,9 @@ export class ComplaintDetailComponent implements OnInit {
         this.router.navigate(['/tasks/create'], {
             queryParams: {
                 fromComplaintId: this.complaint.id,
-                title: `Complaint Resolution: ${this.complaint.complaintType?.name || 'General'}`,
+                title: `Complaint Resolution: ${this.complaint.complaintTypeName || 'General'}`,
                 description: `From Complaint ${this.complaint.complaintNo}:\n${this.complaint.description}`,
-                departmentId: this.complaint.department?.id || this.complaint.departmentId
+                departmentId: this.complaint.departmentId
             }
         });
     }
