@@ -171,7 +171,7 @@ export class TaskDetailComponent implements OnInit {
     }
 
     openReassignModal() {
-        this.selectedStaffId = this.task?.assignedStaff?.id || null;
+        this.selectedStaffId = this.task?.assignedStaffId || this.task?.assignedStaff?.id || null;
         this.showReassignModal = true;
     }
 
@@ -185,7 +185,7 @@ export class TaskDetailComponent implements OnInit {
         // Create updated task object
         const updatedTask = {
             ...this.task,
-            assignedStaff: { id: this.selectedStaffId } // specific payload might depend on backend DTO
+            assignedStaffId: this.selectedStaffId 
         };
 
         // Note: Sometimes backend expects "assignedToUserId" or similar in a DTO.

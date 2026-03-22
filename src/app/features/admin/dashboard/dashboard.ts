@@ -28,7 +28,7 @@ export class Dashboard implements OnInit {
   employeeIdForReport: number | null = null;
 
   // Mock Data for Design (until API support)
-  complaintTasks = 3;
+  complaintTasks = 0;
   staffDistribution = [
     { id: 2, name: 'Water Supply', count: 2, icon: 'drop' },
     { id: 1, name: 'Drainage & Sanitation', count: 2, icon: 'trash' },
@@ -58,9 +58,11 @@ export class Dashboard implements OnInit {
         if (res && res.data) {
           console.log('DEBUG: Using res.data');
           this.stats = res.data;
+          this.complaintTasks = res.data.complaintTasks || 0;
         } else if (res && res.totalTasks !== undefined) {
           console.log('DEBUG: Using res (root)');
           this.stats = res;
+          this.complaintTasks = res.complaintTasks || 0;
         } else {
           console.error('Stats format invalid', res);
         }

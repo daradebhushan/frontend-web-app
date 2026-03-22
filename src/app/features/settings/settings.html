@@ -226,14 +226,14 @@
                 Privacy & Security
             </h3>
             <div class="space-y-2">
-                <div
+                <div (click)="openPrivacyPolicy()"
                     class="p-3 bg-gray-50 rounded-lg flex justify-between items-center cursor-pointer hover:bg-gray-100 transition">
                     <span class="text-sm font-medium text-gray-700">Privacy Policy</span>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </div>
-                <div
+                <div (click)="openTermsOfService()"
                     class="p-3 bg-gray-50 rounded-lg flex justify-between items-center cursor-pointer hover:bg-gray-100 transition">
                     <span class="text-sm font-medium text-gray-700">Terms of Service</span>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -254,7 +254,7 @@
                 Help & Support
             </h3>
             <div class="space-y-2">
-                <div
+                <div (click)="openAboutApp()"
                     class="p-3 bg-gray-50 rounded-lg flex justify-between items-center cursor-pointer hover:bg-gray-100 transition">
                     <span class="text-sm font-medium text-gray-700">About Application</span>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -279,7 +279,7 @@
             style="margin-bottom: 200px !important;">
             <h3 class="text-lg font-bold text-gray-900">{{ orgName }}</h3>
             <div class="text-xs text-gray-500 mb-1">Version 1.0.0</div>
-            <div class="text-[10px] text-gray-400 uppercase tracking-widest mb-6">Government of Maharashtra</div>
+            <div class="text-[10px] text-gray-400 uppercase tracking-widest mb-6">Loknagar SaaS Platform</div>
 
             <button (click)="logout()"
                 class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-lg shadow-red-500/30 transition flex items-center justify-center">
@@ -357,6 +357,118 @@
                     class="px-6 py-2 rounded-lg bg-orange-600 text-white font-bold text-sm shadow-lg shadow-orange-500/30 hover:bg-orange-700 hover:-translate-y-0.5 transition-all">
                     Save Changes
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div *ngIf="isPrivacyModalOpen"
+        class="fixed inset-0 !z-[150] flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4"
+        style="z-index: 150 !important;">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-fade-in-up flex flex-col"
+            style="max-height: 85vh;">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
+                <h3 class="text-lg font-bold text-gray-900">Privacy Policy</h3>
+                <button (click)="closePrivacyModal()"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto grow text-gray-800 space-y-4">
+                <p class="font-bold">Last Updated: March 2026</p>
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">1. Introduction</h2>
+                <p>Welcome to Loknagar by TownSeva. We provide white-label administrative and grievance redressal
+                    software for municipal corporations, local governing bodies, and civic entities. We are committed to
+                    protecting your personal information and your right to privacy.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">2. Information We Collect</h2>
+                <p>We collect information you provide to us when you register, including your name, email address, phone
+                    number, and departmental role. When reporting complaints or completing tasks, you may provide
+                    additional information, such as geographical location and photographic evidence.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">3. Device Permissions</h2>
+                <p>To provide core functionalities, the App may request access to:</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><strong>Camera & Photo Library:</strong> Used exclusively to capture/upload images for complaint
+                        verification and task documentation.</li>
+                    <li><strong>Location Services:</strong> Used to tag geographical coordinates of civic issues.</li>
+                </ul>
+                <p>We do not access or use these permissions for any purpose other than facilitating your interactions
+                    within the App.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">4. How We Use Your Information</h2>
+                <p>We use the information we collect to facilitate account creation, manage and prioritize civic
+                    complaints, communicate updates, and ensure security operations.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">5. Sharing Your Information</h2>
+                <p>We act as a data processor. Your data is strictly used for internal civic administration and
+                    grievance routing. We <strong>do not</strong> share, sell, rent, or trade any personal information
+                    with third-party advertisers.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">6. Security</h2>
+                <p>We have implemented appropriate secure cloud infrastructure to protect your personal information.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">7. Contact Us</h2>
+                <p>If you have questions, please contact the system administrator, your municipal department head, or
+                    our support team directly at <strong>support@townseva.in</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div *ngIf="isTermsModalOpen"
+        class="fixed inset-0 !z-[150] flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4"
+        style="z-index: 150 !important;">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden animate-fade-in-up flex flex-col"
+            style="max-height: 85vh;">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
+                <h3 class="text-lg font-bold text-gray-900">Terms of Service</h3>
+                <button (click)="closeTermsModal()"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto grow text-gray-800 space-y-4">
+                <p class="font-bold">Last Updated: March 2026</p>
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">1. Introduction</h2>
+                <p>Welcome to Loknagar by TownSeva (the "App"). We provide white-label administrative software for civic
+                    entities. These Terms of Service govern your use of our mobile application. By accessing or using
+                    the App, you agree to be bound by these terms.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">2. Acceptable Use</h2>
+                <p>You agree to use the App only for its intended administrative purposes. When reporting complaints or
+                    completing tasks, all provided geographical and photographic evidence must be factual and unaltered.
+                </p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">3. Local Device Access</h2>
+                <p>You agree to grant necessary permissions (Camera, Location) solely to facilitate your interactions
+                    within the App and route verifiable data to the appropriate department.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">4. Our Responsibilities</h2>
+                <p>TownSeva acts as a SaaS provider. We facilitate the routing of civic complaints. We do not guarantee
+                    the physical resolution of reported issues, which remains the sole responsibility of the acting
+                    municipal entity.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">5. Limitation of Liability</h2>
+                <p>TownSeva and our licensors will not be liable for any indirect, incidental, or consequential damages
+                    arising from the use or inability to use the App, or any actions taken by the local municipal body.
+                </p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-gray-900">6. Contact Us</h2>
+                <p>If you have questions about these terms, contact your municipal department head or our support team
+                    at <strong>support@townseva.in</strong>.</p>
+
+                <h2 class="text-xl font-black mt-6 mb-2 text-red-600">Important Disclaimer</h2>
+                <p class="font-bold">Loknagar is a SaaS platform provided by TownSeva. It is NOT an official government
+                    or municipal application.</p>
             </div>
         </div>
     </div>

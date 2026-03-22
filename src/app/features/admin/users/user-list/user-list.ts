@@ -6,6 +6,7 @@ import { UserService, User } from '../../../../services/user.service';
 import { DepartmentService, Department } from '../../../../services/department.service';
 import { UserFormComponent } from '../user-form/user-form';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -20,6 +21,7 @@ export class UserListComponent implements OnInit {
   showForm = false;
   selectedUser: User | null = null;
   selectedDepartmentId: number | null = null;
+  isLoadingData: boolean = true;
 
   constructor(
     private userService: UserService,
@@ -29,64 +31,74 @@ export class UserListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('UserList Loaded Force Update');
+    console.log('UserList Loaded Force Update (Async/Await Architecture)');
+    // Initial parameter extraction
     this.route.queryParams.subscribe(params => {
-      if (params['departmentId']) {
-        this.selectedDepartmentId = +params['departmentId'];
-      } else {
-        this.selectedDepartmentId = null;
-      }
-      this.loadUsers();
+      this.selectedDepartmentId = params['departmentId'] ? +params['departmentId'] : null;
+      this.orchestrateDataLoad();
     });
-    this.loadDepartments();
   }
 
-  loadDepartments() {
-    this.departmentService.getAllDepartments().subscribe({
-      next: (res) => {
-        console.log('DEBUG: Department Response FULL:', JSON.stringify(res));
-        if (res.success) {
-          // Check if content exists, or if data itself is the array
-          if (res.data && res.data.content) {
-            this.departments = res.data.content;
-          } else if (Array.isArray(res.data)) {
-            this.departments = res.data;
-          } else {
-            console.warn('DEBUG: Unknown data structure', res.data);
-            this.departments = [];
-          }
-          console.log('DEBUG: Departments loaded:', this.departments);
-          if (this.departments.length === 0) {
-            console.warn('DEBUG: No departments found in content!');
-          }
+  async orchestrateDataLoad() {
+    this.isLoadingData = true;
+    this.cdr.detectChanges(); // Trigger skeleton loader immediately
+
+    try {
+      // 1. Await departments absolutely strictly
+      await this.loadDepartmentsAsync();
+      
+      // 2. Only THEN await users, passing the currently selected department structure if any
+      await this.loadUsersAsync();
+      
+    } catch (err) {
+      console.error('CRITICAL: Orchestration sequence failed', err);
+    } finally {
+      this.isLoadingData = false;
+      this.cdr.detectChanges(); // Final render pass
+    }
+  }
+
+  async loadDepartmentsAsync(): Promise<void> {
+    try {
+      const res = await lastValueFrom(this.departmentService.getAllDepartments());
+      if (res && res.success) {
+        if (res.data && res.data.content) {
+          this.departments = res.data.content;
+        } else if (Array.isArray(res.data)) {
+          this.departments = res.data;
         } else {
-          console.error('DEBUG: Department response success=false');
+          this.departments = [];
         }
-      },
-      error: (err) => console.error('Error fetching departments', err)
-    });
+      } else {
+         this.departments = [];
+      }
+    } catch (err) {
+      console.error('DEBUG: Dept Load failed natively', err);
+      this.departments = [];
+    }
   }
 
-  loadUsers() {
+  async loadUsersAsync(): Promise<void> {
     const params: any = {};
     if (this.selectedDepartmentId) {
       params.departmentId = this.selectedDepartmentId;
     }
-    this.userService.getAllUsers(params).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.users = res.data.content || [];
-        } else {
-          this.users = [];
-        }
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error('Error fetching users', err)
-    });
+    
+    try {
+      const res = await lastValueFrom(this.userService.getAllUsers(params));
+      if (res && res.success) {
+        this.users = res.data.content || [];
+      } else {
+        this.users = [];
+      }
+    } catch (err) {
+      console.error('DEBUG: User Load failed natively', err);
+      this.users = [];
+    }
   }
 
   onFilterChange() {
-    this.loadUsers();
+    this.orchestrateDataLoad();
   }
 
   openCreateForm() {
@@ -102,7 +114,7 @@ export class UserListComponent implements OnInit {
   onUserCreated() {
     this.showForm = false;
     this.selectedUser = null;
-    this.loadUsers();
+    this.orchestrateDataLoad();
   }
 
   deleteUser(id: number) {
@@ -115,7 +127,7 @@ export class UserListComponent implements OnInit {
       next: () => {
         console.log('User deleted successfully');
         alert('User deleted successfully.');
-        this.loadUsers();
+        this.orchestrateDataLoad();
       },
       error: (err) => {
         console.error('Failed to delete user', err);

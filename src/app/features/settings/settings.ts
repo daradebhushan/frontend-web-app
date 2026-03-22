@@ -43,6 +43,8 @@ export class SettingsComponent implements OnInit {
     // Modal State
     items: any[] = [];
     isEditModalOpen: boolean = false;
+    isPrivacyModalOpen: boolean = false;
+    isTermsModalOpen: boolean = false;
 
     // Edit Form Data
     editOrgName: string = '';
@@ -130,6 +132,30 @@ export class SettingsComponent implements OnInit {
                 this.savingSettings = false;
             }
         });
+    }
+
+    openPrivacyPolicy() {
+        this.isPrivacyModalOpen = true;
+    }
+
+    closePrivacyModal() {
+        this.isPrivacyModalOpen = false;
+    }
+
+    openTermsOfService() {
+        this.isTermsModalOpen = true;
+    }
+
+    closeTermsModal() {
+        this.isTermsModalOpen = false;
+    }
+
+    openAboutApp() {
+        alert('Loknagar by TownSeva\nVersion 1.0.0\nLoknagar is a SaaS (Software as a Service) platform provided by TownSeva. It is NOT an official government or municipal application.\n\n© 2026 TownSeva. All rights reserved.');
+    }
+
+    contactSupport() {
+        window.open('mailto:support@townseva.in?subject=TownSeva Support Request', '_system');
     }
 
     logout() {
