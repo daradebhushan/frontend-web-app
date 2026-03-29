@@ -54,7 +54,7 @@ export class TaskFormComponent implements OnInit {
     // Load Departments and Users first (Parallel)
     forkJoin({
       depts: this.departmentService.getAllDepartments(),
-      users: this.userService.getAllUsers()
+      users: this.userService.getAllUsers({ size: 1000 })
     }).subscribe({
       next: (results: any) => {
         console.log('TaskForm: Reference Data Loaded', results);

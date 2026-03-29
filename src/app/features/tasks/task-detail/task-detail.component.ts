@@ -162,7 +162,7 @@ export class TaskDetailComponent implements OnInit {
     }
 
     loadStaff() {
-        this.userService.getAllUsers({ active: true }).subscribe({
+        this.userService.getAllUsers({ active: true, size: 1000 }).subscribe({
             next: (res: any) => {
                 // Filter for staff/admin if needed, or just show all active users
                 this.staffList = res.data || [];
