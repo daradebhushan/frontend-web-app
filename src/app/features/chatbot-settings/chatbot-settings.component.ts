@@ -42,7 +42,7 @@ export class ChatbotSettingsComponent implements OnInit {
     // Flow Editor
     flowNodes: BotNode[] = [];
     activeTab: 'sim' | 'config' | 'flow' = 'sim';
-    isConfigurable = false; // "Coming Soon" mode
+    isConfigurable = true; // Enabled mapping of Twilio config to UI
     selectedNode: BotNode | null = null;
     newNodeId: string = '';
 
