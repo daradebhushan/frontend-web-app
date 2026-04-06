@@ -44,7 +44,7 @@ export const routes: Routes = [
             {
                 path: 'admin/chatbot',
                 loadComponent: () => import('./features/chatbot-settings/chatbot-settings.component').then(m => m.ChatbotSettingsComponent),
-                data: { roles: ['ROLE_OWNER', 'ROLE_ADMIN', 'OWNER', 'ADMIN'] }
+                data: { roles: ['ROLE_OWNER', 'ROLE_ADMIN', 'OWNER', 'ADMIN', 'CHIEF_OFFICER', 'ROLE_CHIEF_OFFICER'] }
             },
             {
                 path: 'admin/complaint-types',

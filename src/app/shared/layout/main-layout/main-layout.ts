@@ -180,7 +180,13 @@ export class MainLayout implements OnInit {
 
   isAdmin(): boolean {
     const user = this.authService.currentUserValue;
-    return user?.roles.includes('ADMIN') || user?.roles.includes('ROLE_ADMIN') || false;
+    if (!user || (!user.roles)) return false;
+    const roles: string[] = user.roles;
+    return roles.some((r: string) => 
+      r.includes('ADMIN') || 
+      r.includes('OWNER') || 
+      r.includes('CHIEF_OFFICER')
+    );
   }
 
   isOwner(): boolean {
