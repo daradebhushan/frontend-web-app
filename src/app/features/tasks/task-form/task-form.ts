@@ -244,7 +244,14 @@ export class TaskFormComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    const payload = { ...this.taskData };
+    const payload: any = { ...this.taskData };
+    if (this.taskData.departmentId) {
+      payload.department = { id: this.taskData.departmentId };
+    }
+    if (this.taskData.assignedStaffId) {
+      payload.assignedStaff = { id: this.taskData.assignedStaffId };
+    }
+    
     if (payload.dueDate && payload.dueDate.length === 16) {
       payload.dueDate = payload.dueDate + ':00';
     }

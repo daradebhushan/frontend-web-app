@@ -1,9 +1,12 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../services/auth/auth';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authData = localStorage.getItem('auth_data');
+  const authService = inject(AuthService);
   let token = null;
 
   if (authData) {
@@ -22,9 +25,25 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`
       }
     });
-    return next(cloned);
+    return next(cloned).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          console.error('Web Interceptor: 401/403 Unauthorized detected. Logging out.');
+          authService.logout();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  return next(req);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401 || error.status === 403) {
+        console.error('Web Interceptor: 401/403 Unauthorized detected. Logging out.');
+        authService.logout();
+      }
+      return throwError(() => error);
+    })
+  );
 };
 

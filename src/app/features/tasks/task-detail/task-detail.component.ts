@@ -165,7 +165,7 @@ export class TaskDetailComponent implements OnInit {
         this.userService.getAllUsers({ active: true, size: 1000 }).subscribe({
             next: (res: any) => {
                 // Filter for staff/admin if needed, or just show all active users
-                this.staffList = res.data || [];
+                this.staffList = res.data?.content || res.data || [];
             }
         });
     }
@@ -182,27 +182,31 @@ export class TaskDetailComponent implements OnInit {
     confirmReassign() {
         if (!this.selectedStaffId) return;
 
-        // Create updated task object
-        const updatedTask = {
-            ...this.task,
-            assignedStaffId: this.selectedStaffId 
-        };
-
-        // Note: Sometimes backend expects "assignedToUserId" or similar in a DTO.
-        // If updateTask expects full entity, we might need to be careful.
-        // Alternatively, use a PATCH if available. TaskService only has updateTask (PUT).
-        // Let's try sending the updated staff object.
+        // Create updated task object with nested structure expected by API
+        const updatedTask: any = { ...this.task };
+        updatedTask.assignedStaff = { id: this.selectedStaffId };
+        
+        // Ensure department is also nested if it exists
+        if (this.task.department && this.task.department.id) {
+            updatedTask.department = { id: this.task.department.id };
+        }
 
         this.taskService.updateTask(this.task.id, updatedTask).subscribe({
             next: (res: any) => {
-                if (res.success) {
-                    this.task = res.data;
+                if (res.success || (res.id && res.title)) { // Handle wrapped or unwrapped
+                    this.task = res.data || res;
                     this.taskUpdated.emit();
                     this.showReassignModal = false;
                     this.cdr.detectChanges();
+                } else {
+                    alert('Reassignment failed: ' + (res.message || 'Unknown error'));
+                    this.showReassignModal = false;
                 }
             },
-            error: (err) => alert('Failed to reassign task')
+            error: (err) => {
+                alert('Failed to reassign task: ' + (err.error?.message || 'Server Error'));
+                this.showReassignModal = false;
+            }
         });
     }
 

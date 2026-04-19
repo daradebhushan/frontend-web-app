@@ -21,6 +21,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
   priorityFilter: string = '';
   statusFilter: string = '';
   searchText: string = '';
+  assignedToMe: boolean = false;
+  assignedByRole: string = '';
   showFilters: boolean = false;
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
@@ -79,6 +81,16 @@ export class TaskListComponent implements OnInit, OnDestroy {
         console.log('DEBUG: Setting Task Type Filter to:', this.taskType);
       }
 
+      if (params['assignedToMe']) {
+        this.assignedToMe = params['assignedToMe'] === 'true';
+        console.log('DEBUG: Setting Assigned To Me Filter to:', this.assignedToMe);
+      }
+
+      if (params['assignedByRole']) {
+        this.assignedByRole = params['assignedByRole'];
+        console.log('DEBUG: Setting Assigned By Role Filter to:', this.assignedByRole);
+      }
+
       this.loadTasks();
     });
   }
@@ -132,6 +144,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
     if (this.priorityFilter && this.priorityFilter !== '') filters.priority = this.priorityFilter;
     if (this.statusFilter && this.statusFilter !== '') filters.status = this.statusFilter;
     if (this.searchText && this.searchText !== '') filters.search = this.searchText.trim();
+    if (this.assignedToMe) filters.assignedToMe = true;
+    if (this.assignedByRole && this.assignedByRole !== '') filters.assignedByRole = this.assignedByRole;
 
     this.taskService.getTasks(filters).subscribe({
       next: (res: any) => {

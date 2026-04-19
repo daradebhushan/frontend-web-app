@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../../core/pipes/translate.pipe';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth/auth';
@@ -8,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
     selector: 'app-profile',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, TranslatePipe],
     templateUrl: './profile.html',
     styleUrl: './profile.css'
 })
