@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatbotService, ChatbotSettings } from '../../services/chatbot.service';
 import { DepartmentService, Department } from '../../services/department.service';
 import { ComplaintService, ComplaintType } from '../../services/complaint.service';
 import { Router } from '@angular/router'; // Import Router
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { finalize } from 'rxjs';
 
 interface BotOption {
     labelEn: string;
@@ -33,16 +34,17 @@ interface BotNode {
     templateUrl: './chatbot-settings.component.html',
     styleUrls: ['./chatbot-settings.component.css']
 })
-export class ChatbotSettingsComponent implements OnInit {
+export class ChatbotSettingsComponent implements OnInit, OnDestroy {
     settings: ChatbotSettings = {};
     isLoading = false;
+    isSaving = false;
+    showLoadingOverlay = false;
     successMessage = '';
     errorMessage = '';
 
     // Flow Editor
     flowNodes: BotNode[] = [];
-    activeTab: 'sim' | 'config' | 'flow' = 'sim';
-    isConfigurable = true; // Enabled mapping of Twilio config to UI
+    activeTab: 'sim' | 'config' | 'flow' = 'config';
     selectedNode: BotNode | null = null;
     newNodeId: string = '';
 
@@ -54,27 +56,26 @@ export class ChatbotSettingsComponent implements OnInit {
     // Metadata for Dropdowns
     departments: Department[] = [];
     complaintTypes: ComplaintType[] = [];
+    private readonly loadingOverlayDelayMs = 150;
+    private readonly minOverlayVisibleMs = 200;
+    private loadingDelayTimer: ReturnType<typeof setTimeout> | null = null;
+    private overlayHideTimer: ReturnType<typeof setTimeout> | null = null;
+    private overlayVisibleAt = 0;
 
     constructor(
         private chatbotService: ChatbotService,
         private departmentService: DepartmentService,
         private complaintService: ComplaintService,
-        private router: Router,
-        private cdr: ChangeDetectorRef
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         this.loadSettings();
         this.loadMetadata();
+    }
 
-        // Safety timeout to prevent stuck loading state
-        setTimeout(() => {
-            if (this.isLoading) {
-                console.warn('Force disabling loading state after timeout');
-                this.isLoading = false;
-                this.cdr.detectChanges(); // Force update
-            }
-        }, 5000);
+    ngOnDestroy(): void {
+        this.clearLoadingTimers();
     }
 
     loadMetadata() {
@@ -90,8 +91,10 @@ export class ChatbotSettingsComponent implements OnInit {
     }
 
     loadSettings() {
-        // this.isLoading = true; // DISABLED: Prevent stuck loading screen. Data will pop in.
-        this.chatbotService.getSettings().subscribe({
+        this.beginLoading();
+        this.chatbotService.getSettings().pipe(
+            finalize(() => this.endLoading())
+        ).subscribe({
             next: (data) => {
                 console.log('DEBUG: Received Settings:', data); // Log full payload
                 this.settings = data;
@@ -113,33 +116,35 @@ export class ChatbotSettingsComponent implements OnInit {
                 } else {
                     console.log('DEBUG: chatbotFlow is empty or null');
                 }
-                this.isLoading = false;
             },
             error: (err) => {
                 console.error('Failed to load settings', err);
                 this.errorMessage = 'Failed to load settings. Please try again.';
-                this.isLoading = false;
             }
         });
     }
 
     save() {
-        this.isLoading = true;
+        this.isSaving = true;
+        this.beginLoading();
         this.successMessage = '';
         this.errorMessage = '';
 
         // Serialize Flow
         this.settings.chatbotFlow = JSON.stringify(this.flowNodes);
 
-        this.chatbotService.saveSettings(this.settings).subscribe({
+        this.chatbotService.saveSettings(this.settings).pipe(
+            finalize(() => {
+                this.isSaving = false;
+                this.endLoading();
+            })
+        ).subscribe({
             next: (msg) => {
                 this.successMessage = msg || 'Settings saved successfully!';
-                this.isLoading = false;
             },
             error: (err) => {
                 console.error('Failed to save settings', err);
                 this.errorMessage = 'Failed to save settings. Please try again.';
-                this.isLoading = false;
             }
         });
     }
@@ -167,7 +172,6 @@ export class ChatbotSettingsComponent implements OnInit {
         this.flowNodes = JSON.parse(JSON.stringify(this.sampleFlow)); // Deep copy
         this.selectedNode = null;
         this.successMessage = "Sample flow loaded! Don't forget to Save.";
-        this.cdr.detectChanges(); // Force UI update
         console.log('DEBUG: Flow updated. Node count:', this.flowNodes.length);
         // } else {
         //    console.log('DEBUG: Cancelled sample load.');
@@ -302,7 +306,6 @@ export class ChatbotSettingsComponent implements OnInit {
             // However, sticking to the requirement: "verify the task is there in task list".
             // If I just show a button, the user needs to click it.
         }
-        this.cdr.detectChanges();
     }
 
     createTaskFromComplaint() {
@@ -319,11 +322,87 @@ export class ChatbotSettingsComponent implements OnInit {
     handleSimError(err: any) {
         this.simLoading = false;
         this.chatHistory.push({ sender: 'bot', text: 'Error: Could not reach bot.' });
-        this.cdr.detectChanges();
     }
 
     clearChat() {
         this.chatHistory = [];
-        this.sendSimMessage();
+        this.simMessage = '';
+        this.selectedFile = null;
+        this.simLoading = false;
+        this.createdComplaintData = null;
+    }
+
+    setActiveTab(tab: 'sim' | 'config' | 'flow') {
+        this.activeTab = tab;
+    }
+
+    trackChatMessage(index: number): number {
+        return index;
+    }
+
+    private beginLoading() {
+        this.isLoading = true;
+
+        if (this.overlayHideTimer) {
+            clearTimeout(this.overlayHideTimer);
+            this.overlayHideTimer = null;
+        }
+
+        if (this.showLoadingOverlay || this.loadingDelayTimer) {
+            return;
+        }
+
+        this.loadingDelayTimer = setTimeout(() => {
+            this.loadingDelayTimer = null;
+            if (!this.isLoading) {
+                return;
+            }
+
+            this.showLoadingOverlay = true;
+            this.overlayVisibleAt = Date.now();
+        }, this.loadingOverlayDelayMs);
+    }
+
+    private endLoading() {
+        this.isLoading = false;
+
+        if (this.loadingDelayTimer) {
+            clearTimeout(this.loadingDelayTimer);
+            this.loadingDelayTimer = null;
+        }
+
+        if (!this.showLoadingOverlay) {
+            return;
+        }
+
+        const remainingVisibleTime = this.minOverlayVisibleMs - (Date.now() - this.overlayVisibleAt);
+        if (remainingVisibleTime <= 0) {
+            this.hideLoadingOverlay();
+            return;
+        }
+
+        this.overlayHideTimer = setTimeout(() => {
+            this.overlayHideTimer = null;
+            if (!this.isLoading) {
+                this.hideLoadingOverlay();
+            }
+        }, remainingVisibleTime);
+    }
+
+    private hideLoadingOverlay() {
+        this.showLoadingOverlay = false;
+        this.overlayVisibleAt = 0;
+    }
+
+    private clearLoadingTimers() {
+        if (this.loadingDelayTimer) {
+            clearTimeout(this.loadingDelayTimer);
+            this.loadingDelayTimer = null;
+        }
+
+        if (this.overlayHideTimer) {
+            clearTimeout(this.overlayHideTimer);
+            this.overlayHideTimer = null;
+        }
     }
 }

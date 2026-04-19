@@ -1,163 +1,155 @@
-<div class="settings-container">
-    <div class="header">
-        <h2>🤖 Chatbot Configuration</h2>
-        <p>Configure your WhatsApp Chatbot credentials and dynamic flow.</p>
-    </div>
+<div class="chatbot-page-wrapper">
 
-    <div *ngIf="isLoading" class="loading-overlay">
-        <div class="spinner"></div>
-    </div>
+  <!-- HEADER -->
+  <div class="chatbot-header">
+    <h2>🤖 Chatbot Configuration</h2>
+    <p>Configure your WhatsApp Chatbot Twilio credentials.</p>
+  </div>
 
-    <div class="tabs mb-4 flex space-x-2 border-b">
-        <button (click)="activeTab = 'config'" [class.font-bold]="activeTab === 'config'"
-            [class.border-b-2]="activeTab === 'config'" class="px-4 py-2 border-indigo-500">
-            Twilio & Greetings
-        </button>
+  <!-- LOADING OVERLAY -->
+  <div class="chatbot-loading-overlay" *ngIf="showLoadingOverlay">
+    <div class="chatbot-spinner"></div>
+  </div>
 
-        <button (click)="activeTab = 'sim'" [class.font-bold]="activeTab === 'sim'"
-            [class.border-b-2]="activeTab === 'sim'" class="px-4 py-2 border-indigo-500">
-            Simulator
-        </button>
-    </div>
+  <!-- TAB BUTTONS -->
+  <div class="chatbot-tabs">
+    <button type="button"
+      class="chatbot-tab-btn"
+      [class.active]="activeTab === 'config'"
+      (click)="setActiveTab('config')">
+      ⚙️ Twilio &amp; Config
+    </button>
+    <button type="button"
+      class="chatbot-tab-btn"
+      [class.active]="activeTab === 'sim'"
+      (click)="setActiveTab('sim')">
+      💬 Simulator
+    </button>
+  </div>
 
-    <!-- COMING SOON OVERLAY -->
-    <div *ngIf="!isConfigurable && activeTab !== 'sim'"
-        class="p-10 text-center bg-gray-50 rounded-xl border border-dashed border-gray-300">
-        <h3 class="text-2xl font-bold text-gray-700 mb-2">🚀 Coming Soon</h3>
-        <p class="text-gray-500 mb-4">Configurable Chatbot is currently under development.</p>
-        <p class="text-sm text-gray-400">We are using a hardcoded flow for now to ensure stability. Please use the
-            <b>Simulator</b> tab to test the current behavior.
-        </p>
-    </div>
+  <!-- ===== CONFIG TAB ===== -->
+  <div class="chatbot-tab-content" [class.active-tab]="activeTab === 'config'" [class.hidden-tab]="activeTab !== 'config'">
+    <div class="chatbot-card">
 
-    <!-- SIMULATOR TAB -->
-    <div *ngIf="activeTab === 'sim'" class="animate-fade-in-up">
-        <div class="h-[600px] border rounded-xl overflow-hidden bg-white shadow-xl flex flex-col items-center">
-            <div class="w-full max-w-md bg-gray-100 flex-1 flex flex-col relative h-full">
-                <div class="bg-green-600 text-white p-3 flex items-center shadow-md">
-                    <div class="w-8 h-8 bg-gray-300 rounded-full mr-3 overflow-hidden">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-                            class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm">Chatbot Simulator</h3>
-                        <p class="text-xs opacity-75">Online</p>
-                    </div>
-                    <button (click)="clearChat()" class="ml-auto text-xs bg-green-700 px-2 py-1 rounded">Reset</button>
-                </div>
+      <div class="chatbot-alert chatbot-alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="chatbot-alert chatbot-alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
-                <div
-                    class="flex-1 overflow-y-auto p-4 space-y-3 bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')]">
-                    <div *ngIf="chatHistory.length === 0"
-                        class="text-center text-xs text-gray-500 bg-yellow-100 p-2 rounded shadow mb-4">
-                        Send "Hi" to start testing your flow.
-                    </div>
-                    <div *ngFor="let msg of chatHistory" class="flex"
-                        [ngClass]="{'justify-end': msg.sender === 'user'}">
-                        <div class="max-w-[80%] rounded-lg p-2 text-sm shadow-sm whitespace-pre-wrap"
-                            [ngClass]="msg.sender === 'user' ? 'bg-green-100 text-gray-800' : 'bg-white text-gray-800'">
-                            {{ msg.text }}
-                        </div>
-                    </div>
-                    <div *ngIf="simLoading" class="flex justify-start">
-                        <div class="bg-white rounded-lg p-2 shadow-sm"><span class="animate-pulse">...</span></div>
-                    </div>
-                </div>
+      <form (ngSubmit)="save()" #settingsForm="ngForm">
 
-                <div class="bg-gray-200 p-2 flex flex-col">
-                    <div *ngIf="selectedFile"
-                        class="px-2 py-1 mb-1 text-xs text-blue-600 flex items-center bg-blue-50 rounded self-start">
-                        <span class="truncate max-w-[200px]">{{ selectedFile.name }}</span>
-                        <button (click)="selectedFile = null; fileInput.value = ''"
-                            class="ml-2 text-red-500 font-bold hover:text-red-700">✕</button>
-                    </div>
-                    <div class="flex items-center space-x-2 w-full">
-                        <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden"
-                            accept="image/*,application/pdf">
-                        <button (click)="fileInput.click()" [class.text-blue-600]="selectedFile" title="Attach Photo"
-                            class="h-10 px-3 bg-white text-gray-500 rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 transition shrink-0">
-                            <!-- Paperclip Icon -->
-                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
-                                </path>
-                            </svg>
-                            <span class="text-xs font-bold uppercase">Attach</span>
-                        </button>
-                        <input type="text" [(ngModel)]="simMessage" (keyup.enter)="sendSimMessage()"
-                            placeholder="Type a message..."
-                            class="flex-1 rounded-full px-4 py-2 border-none outline-none text-sm">
-                        <button (click)="sendSimMessage()"
-                            class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white shadow-md hover:bg-green-700 transition shrink-0">
-                            <!-- Paper Plane -->
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Task Creation Prompt -->
-                    <div *ngIf="createdComplaintData"
-                        class="mt-2 bg-orange-50 border border-orange-200 rounded p-3 flex justify-between items-center animate-fade-in-up">
-                        <div class="text-xs text-orange-800">
-                            <strong>Complaint Created!</strong><br>
-                            Convert this to a Task for staff?
-                        </div>
-                        <button (click)="createTaskFromComplaint()"
-                            class="bg-orange-600 text-white text-xs font-bold px-3 py-2 rounded shadow hover:bg-orange-700 transition">
-                            Create Task
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 text-center text-gray-400 text-xs">
-                * This simulator uses real backend logic but does not send actual WhatsApp messages.
-            </div>
+        <div class="chatbot-section-title">
+          🔑 Twilio Connection
         </div>
+
+        <div class="chatbot-field">
+          <label for="sid">Account SID</label>
+          <input
+            type="text"
+            id="sid"
+            name="accountSid"
+            [(ngModel)]="settings.accountSid"
+            placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            required
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="chatbot-field">
+          <label for="token">Auth Token</label>
+          <input
+            type="password"
+            id="token"
+            name="authToken"
+            [(ngModel)]="settings.authToken"
+            placeholder="Enter your Twilio Auth Token"
+            required
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="chatbot-field">
+          <label for="phone">WhatsApp Number</label>
+          <input
+            type="text"
+            id="phone"
+            name="phoneNumber"
+            [(ngModel)]="settings.phoneNumber"
+            placeholder="whatsapp:+14155238886"
+            required
+            autocomplete="off"
+          />
+          <small>Format: whatsapp:+[country code][number]. For Twilio Sandbox use whatsapp:+14155238886</small>
+        </div>
+
+        <div class="chatbot-actions">
+          <button type="submit" class="chatbot-save-btn" [disabled]="isSaving">
+            <span *ngIf="!isSaving">💾 Save Configuration</span>
+            <span *ngIf="isSaving">Saving...</span>
+          </button>
+        </div>
+
+      </form>
     </div>
+  </div>
 
-    <!-- CONFIG TAB -->
-    <div *ngIf="activeTab === 'config' && isConfigurable" class="form-card animate-fade-in-up">
-        <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
-        <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+  <!-- ===== SIMULATOR TAB ===== -->
+  <div class="chatbot-tab-content" [class.active-tab]="activeTab === 'sim'" [class.hidden-tab]="activeTab !== 'sim'">
+    <div class="chatbot-sim-wrapper">
+      <div class="chatbot-sim-phone">
 
-        <form (ngSubmit)="save()" #settingsForm="ngForm">
+        <!-- Sim Header -->
+        <div class="sim-header">
+          <div class="sim-avatar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+          </div>
+          <div>
+            <div class="sim-name">Chatbot Simulator</div>
+            <div class="sim-status">Online</div>
+          </div>
+          <button type="button" class="sim-reset-btn" (click)="clearChat()">Reset</button>
+        </div>
 
-            <!-- Twilio Section -->
-            <section>
-                <h3><i class="fas fa-key"></i> Twilio Connection</h3>
-                <div class="input-group">
-                    <label for="sid">Account SID</label>
-                    <input type="text" id="sid" [(ngModel)]="settings.accountSid" name="accountSid" placeholder="AC..."
-                        required>
-                </div>
-
-                <div class="input-group">
-                    <label for="token">Auth Token</label>
-                    <input type="password" id="token" [(ngModel)]="settings.authToken" name="authToken"
-                        placeholder="Auth Token" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="phone">WhatsApp Number</label>
-                    <input type="text" id="phone" [(ngModel)]="settings.phoneNumber" name="phoneNumber"
-                        placeholder="whatsapp:+91..." required>
-                    <small>Format: whatsapp:+91XXXXXXXXXX</small>
-                </div>
-            </section>
-
-            
-
-            <div class="actions">
-                <button type="submit" class="save-btn" [disabled]="isLoading">
-                    <span *ngIf="!isLoading">Save Configuration</span>
-                    <span *ngIf="isLoading">Saving...</span>
-                </button>
+        <!-- Chat Area -->
+        <div class="sim-chat-area">
+          <div *ngIf="chatHistory.length === 0" class="sim-hint">
+            Send "Hi" to start testing your flow.
+          </div>
+          <div *ngFor="let msg of chatHistory; trackBy: trackChatMessage"
+            class="sim-bubble-row"
+            [class.user-row]="msg.sender === 'user'">
+            <div class="sim-bubble" [class.user-bubble]="msg.sender === 'user'" [class.bot-bubble]="msg.sender === 'bot'">
+              {{ msg.text }}
             </div>
+          </div>
+          <div *ngIf="simLoading" class="sim-bubble-row">
+            <div class="sim-bubble bot-bubble sim-typing">...</div>
+          </div>
+        </div>
 
-        </form>
+        <!-- Input Area -->
+        <div class="sim-input-area">
+          <div *ngIf="selectedFile" class="sim-file-preview">
+            <span>{{ selectedFile.name }}</span>
+            <button type="button" (click)="selectedFile = null; fileInput.value = ''">✕</button>
+          </div>
+          <div class="sim-input-row">
+            <input type="file" #fileInput (change)="onFileSelected($event)" class="hidden" accept="image/*,application/pdf">
+            <button type="button" (click)="fileInput.click()" class="sim-attach-btn" [class.active]="selectedFile" title="Attach file">📎</button>
+            <input type="text" [(ngModel)]="simMessage" (keyup.enter)="sendSimMessage()" placeholder="Type a message..." class="sim-text-input">
+            <button type="button" (click)="sendSimMessage()" class="sim-send-btn">➤</button>
+          </div>
+        </div>
+
+        <!-- Complaint Created Banner -->
+        <div *ngIf="createdComplaintData" class="sim-complaint-banner">
+          <div class="sim-complaint-text">
+            <strong>Complaint Created!</strong><br>Convert to a Task?
+          </div>
+          <button type="button" (click)="createTaskFromComplaint()" class="sim-task-btn">Create Task</button>
+        </div>
+
+      </div>
+      <p class="sim-disclaimer">* Simulator uses real backend logic but does NOT send actual WhatsApp messages.</p>
     </div>
-
+  </div>
 
 </div>
