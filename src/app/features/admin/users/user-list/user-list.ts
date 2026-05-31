@@ -79,7 +79,7 @@ export class UserListComponent implements OnInit {
   }
 
   async loadUsersAsync(): Promise<void> {
-    const params: any = {};
+    const params: any = { size: 1000 };
     if (this.selectedDepartmentId) {
       params.departmentId = this.selectedDepartmentId;
     }

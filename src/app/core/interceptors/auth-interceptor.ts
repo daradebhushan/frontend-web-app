@@ -27,9 +27,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
     return next(cloned).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 || error.status === 403) {
-          console.error('Web Interceptor: 401/403 Unauthorized detected. Logging out.');
+        if (error.status === 401) {
+          console.error('Web Interceptor: 401 Unauthorized detected. Logging out.');
           authService.logout();
+        } else if (error.status === 403) {
+          console.warn('Web Interceptor: 403 Forbidden. Access denied for this resource, but NOT logging out.');
         }
         return throwError(() => error);
       })
@@ -38,9 +40,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 || error.status === 403) {
-        console.error('Web Interceptor: 401/403 Unauthorized detected. Logging out.');
+      if (error.status === 401) {
+        console.error('Web Interceptor: 401 Unauthorized detected. Logging out.');
         authService.logout();
+      } else if (error.status === 403) {
+        console.warn('Web Interceptor: 403 Forbidden. Access denied for this resource, but NOT logging out.');
       }
       return throwError(() => error);
     })
