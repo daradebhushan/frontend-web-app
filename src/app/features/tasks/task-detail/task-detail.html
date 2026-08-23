@@ -81,7 +81,7 @@
                         translate }}</h4>
                     <div class="flex flex-wrap gap-2 mb-2">
                         <div *ngFor="let att of attachments" (click)="downloadFile(att)"
-                            class="cursor-pointer bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg px-3 py-2 flex items-center space-x-2 text-xs text-blue-700 transition">
+                            class="cursor-pointer bg-gray-50 hover:bg-cream-50 border border-gray-200 hover:border-saffron-300 rounded-lg px-3 py-2 flex items-center space-x-2 text-xs text-gray-700 transition-colors shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
@@ -113,10 +113,10 @@
                             </svg>
                             {{ 'ADD_FILES' | translate }}
                         </label>
-                        <span *ngIf="newTaskFiles && newTaskFiles.length > 0" class="text-xs text-blue-600 font-bold">
+                        <span *ngIf="newTaskFiles && newTaskFiles.length > 0" class="text-xs text-saffron-600 font-bold">
                             {{ newTaskFiles.length }} {{ 'FILES_SELECTED' | translate }}
                             <button (click)="uploadTaskAttachments()"
-                                class="ml-2 text-white bg-blue-600 hover:bg-blue-700 px-2 py-0.5 rounded shadow-sm">{{
+                                class="ml-2 text-white bg-saffron-600 hover:bg-saffron-700 px-2 py-0.5 rounded shadow-sm">{{
                                 'UPLOAD' | translate }}</button>
                         </span>
                     </div>
@@ -212,7 +212,7 @@
                             </div>
                             <div class="relative" *ngIf="task?.assignedStaff">
                                 <div
-                                    class="absolute -left-[21px] bg-blue-500 h-3 w-3 rounded-full border-2 border-white shadow">
+                                    class="absolute -left-[21px] bg-saffron-500 h-3 w-3 rounded-full border-2 border-white shadow">
                                 </div>
                                 <div class="text-xs text-gray-400 mb-0.5">{{ 'TODAY' | translate }}</div>
                                 <div class="font-bold text-sm text-gray-800">{{ 'ASSIGNED' | translate }}</div>
@@ -318,13 +318,13 @@
                                             <!-- Editing View -->
                                             <div *ngIf="editingCommentId === comment.id">
                                                 <textarea [(ngModel)]="editedCommentText"
-                                                    class="w-full bg-cream-50 border border-blue-200 rounded p-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 mb-2"></textarea>
+                                                    class="w-full bg-cream-50 border border-gray-200 rounded p-2 text-sm focus:outline-none focus:ring-1 focus:ring-saffron-500 mb-2"></textarea>
                                                 <div class="flex justify-end space-x-2">
                                                     <button (click)="cancelEditing()"
                                                         class="text-xs text-gray-500 hover:text-gray-700 px-2 py-1">{{
                                                         'CANCEL' | translate }}</button>
                                                     <button (click)="saveEdit(comment.id)"
-                                                        class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">{{
+                                                        class="text-xs bg-saffron-600 text-white px-3 py-1 rounded hover:bg-saffron-700">{{
                                                         'SAVE' | translate }}</button>
                                                 </div>
                                             </div>
