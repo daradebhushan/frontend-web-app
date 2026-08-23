@@ -9,7 +9,7 @@
     <!-- Top Emblem & Branding -->
     <div class="text-center mb-10 animate-fade-in-up">
         <div class="w-24 h-24 mx-auto mb-4 relative drop-shadow-lg">
-            <div class="absolute inset-0 bg-gradient-to-br from-saffron-400 to-orange-600 rounded-full blur-xl opacity-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-saffron-400 to-saffron-600 rounded-full blur-xl opacity-30"></div>
             <div class="relative bg-white rounded-full p-2 shadow-md border border-gray-100 flex items-center justify-center overflow-hidden w-full h-full">
                 <img src="assets/loknagar-logo.png" alt="Loknagar Logo" class="w-full h-full object-contain" />
             </div>
@@ -28,7 +28,7 @@
             <!-- Role Cards -->
             <div *ngFor="let role of roles" (click)="selectRole(role.id)"
                 class="relative overflow-hidden group border-2 rounded-2xl p-5 cursor-pointer transition-all duration-300 transform hover:-translate-y-1"
-                [ngClass]="selectedRole === role.id ? 'border-saffron-500 bg-orange-50/50 shadow-md' : 'border-transparent bg-gray-50 hover:bg-white hover:shadow-soft'">
+                [ngClass]="selectedRole === role.id ? 'border-saffron-500 bg-saffron-50/50 shadow-md' : 'border-transparent bg-cream-50 hover:bg-white hover:shadow-soft'">
 
                 <!-- Selection Indicator -->
                 <div *ngIf="selectedRole === role.id" class="absolute top-4 right-4 text-saffron-600 animate-scale-in">

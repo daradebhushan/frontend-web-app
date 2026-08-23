@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50 pb-20 font-sans">
+<div class="min-h-screen bg-cream-50 pb-20 font-sans">
     <!-- Tab Switcher (Depts vs Employees) -->
     <div class="bg-white px-4 pt-4 shadow-sm border-b border-gray-100 mb-4 sticky top-0 z-40 pb-4">
         <!-- Header Context -->
@@ -12,11 +12,11 @@
 
         <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100 mb-4 flex relative overflow-hidden">
             <a routerLink="/admin/departments"
-                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-gray-500 hover:bg-gray-50">
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-gray-500 hover:bg-cream-50">
                 {{ 'DEPARTMENTS_TITLE' | translate }}
             </a>
             <a routerLink="/admin/users"
-                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-white shadow-md bg-gradient-to-r from-orange-500 to-orange-600">
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-white shadow-md bg-gradient-to-r from-saffron-500 to-saffron-600">
                 {{ 'EMPLOYEES' | translate }}
             </a>
         </div>
@@ -90,8 +90,8 @@
     <!-- Employee List -->
     <div *ngIf="!isLoadingData" class="px-4 space-y-3 animate-fade-in-up">
         <div *ngIf="users.length === 0" class="text-center py-10 bg-white rounded-xl border border-gray-100 shadow-sm">
-             <div class="bg-orange-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                 <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             <div class="bg-saffron-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                 <svg class="w-8 h-8 text-saffron-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                  </svg>
              </div>
@@ -152,7 +152,7 @@
 
     <!-- Floating Action Button (Mobile Only fallback) -->
     <button (click)="showForm = true"
-        class="fixed bottom-24 right-4 bg-orange-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-700 transition z-40">
+        class="fixed bottom-24 right-4 bg-saffron-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-saffron-700 transition z-40">
         <span class="text-2xl font-light mb-1">+</span>
     </button>
 </div>

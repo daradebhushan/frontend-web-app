@@ -1,15 +1,15 @@
-<div class="min-h-screen bg-gray-50 font-sans pb-24">
+<div class="min-h-screen bg-cream-50 font-sans pb-24">
     <!-- Header with 'Add' button - Updated for Edit/Delete -->
 
     <!-- Tab Switcher (Depts vs Employees) -->
     <div class="bg-white px-4 pt-2 shadow-sm border-b border-gray-100 mb-4 sticky top-0 z-40">
         <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100 mb-4 flex relative overflow-hidden">
             <a routerLink="/admin/departments"
-                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-white shadow-md bg-gradient-to-r from-orange-500 to-orange-600">
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-white shadow-md bg-gradient-to-r from-saffron-500 to-saffron-600">
                 {{ 'DEPARTMENTS_TITLE' | translate }}
             </a>
             <a routerLink="/admin/users"
-                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-gray-500 hover:bg-gray-50">
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 relative z-10 text-center text-gray-500 hover:bg-cream-50">
                 {{ 'EMPLOYEES' | translate }}
             </a>
         </div>
@@ -30,7 +30,7 @@
         class="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
         <div
             class="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all scale-100">
-            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-cream-50">
                 <h3 class="font-bold text-gray-900">{{ (selectedDepartment ? 'EDIT_DEPARTMENT' : 'ADD_DEPARTMENT') |
                     translate }}</h3>
                 <button (click)="showForm = false"
@@ -53,7 +53,7 @@
                 <div class="flex items-start space-x-4">
                     <!-- Icon Box -->
                     <div
-                        class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500 shrink-0">
+                        class="w-10 h-10 rounded-lg bg-saffron-50 flex items-center justify-center text-saffron-500 shrink-0">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2-2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
@@ -110,7 +110,7 @@
     </div>
     <!-- Floating Action Button -->
     <button (click)="openForm()"
-        class="fixed bottom-24 right-4 bg-orange-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-700 transition z-40">
+        class="fixed bottom-24 right-4 bg-saffron-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-saffron-700 transition z-40">
         <span class="text-2xl font-light mb-1">+</span>
     </button>
 </div>

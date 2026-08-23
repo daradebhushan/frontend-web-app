@@ -1,22 +1,22 @@
 <div class="max-w-4xl mx-auto p-6">
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-900">My Profile</h1>
-        <p class="text-sm text-gray-500">Manage your account settings and preferences</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ 'MY_PROFILE' | translate }}</h1>
+        <p class="text-sm text-gray-500">{{ 'MANAGE_ACCOUNT_SETTINGS' | translate }}</p>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
         <!-- Header / Banner -->
-        <div class="bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-8 text-white relative">
+        <div class="bg-gradient-to-r from-saffron-500 to-saffron-600 px-8 py-8 text-white relative">
             <div class="flex items-center space-x-6 relative z-10">
                 <div
-                    class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-4xl shadow-lg font-bold text-orange-600">
+                    class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-4xl shadow-lg font-bold text-saffron-600">
                     {{ user?.name?.charAt(0) || 'U' }}
                 </div>
                 <div>
                     <h2 class="text-2xl font-bold">{{ user?.name }}</h2>
-                    <p class="text-orange-100 font-medium">{{ user?.role | translate }}</p>
-                    <div class="flex items-center mt-2 space-x-4 text-xs text-orange-50 font-medium opacity-90">
+                    <p class="text-saffron-100 font-medium">{{ user?.role | translate }}</p>
+                    <div class="flex items-center mt-2 space-x-4 text-xs text-saffron-50 font-medium opacity-90">
                         <span class="flex items-center">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -69,46 +69,46 @@
                         <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Full
                             Name</label>
                         <input type="text" [(ngModel)]="formData.name" name="name" required
-                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block p-2.5 transition-colors">
+                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-saffron-500 focus:border-saffron-500 block p-2.5 transition-colors">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Email
                             Address</label>
                         <input type="email" [(ngModel)]="formData.email" name="email" required
-                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block p-2.5 transition-colors">
+                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-saffron-500 focus:border-saffron-500 block p-2.5 transition-colors">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Mobile
                             Number</label>
                         <input type="tel" [(ngModel)]="formData.mobile" name="mobile" required
-                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block p-2.5 transition-colors">
+                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-saffron-500 focus:border-saffron-500 block p-2.5 transition-colors">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">New Password
                             (Optional)</label>
                         <input type="password" [(ngModel)]="formData.password" name="password"
                             placeholder="Leave blank to keep current"
-                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block p-2.5 transition-colors">
+                            class="w-full bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-saffron-500 focus:border-saffron-500 block p-2.5 transition-colors">
                     </div>
                 </div>
 
                 <!-- Read-only Info -->
                 <div class="py-6">
-                    <h3 class="text-sm font-bold text-gray-900 mb-4">Organizational Details</h3>
+                    <h3 class="text-sm font-bold text-gray-900 mb-4">{{ 'ORGANIZATIONAL_DETAILS' | translate }}</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                        <div class="bg-cream-50 p-4 rounded-lg border border-gray-100">
                             <label
-                                class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">Department</label>
+                                class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">{{ 'DEPARTMENT' | translate }}</label>
                             <span class="text-sm font-semibold text-gray-700">{{ formData.department }}</span>
                         </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                        <div class="bg-cream-50 p-4 rounded-lg border border-gray-100">
                             <label
-                                class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">Role</label>
+                                class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">{{ 'ROLE' | translate }}</label>
                             <span class="text-sm font-semibold text-gray-700">{{ formData.role | translate }}</span>
                         </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                        <div class="bg-cream-50 p-4 rounded-lg border border-gray-100">
                             <label
-                                class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">Designation</label>
+                                class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">{{ 'DESIGNATION' | translate }}</label>
                             <span class="text-sm font-semibold text-gray-700">{{ formData.designation }}</span>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                 <!-- Action Buttons -->
                 <div class="py-6 flex justify-end space-x-3">
                     <button type="submit" [disabled]="loading"
-                        class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed text-sm flex items-center">
+                        class="bg-saffron-600 hover:bg-saffron-700 text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed text-sm flex items-center">
                         <svg *ngIf="loading" class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none"
                             viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">

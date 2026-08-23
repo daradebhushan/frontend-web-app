@@ -12,7 +12,7 @@
                 {{ complaint.status }}
             </span>
         </div>
-        <button [routerLink]="['/complaints']" class="text-gray-600 hover:text-gray-800 text-sm whitespace-nowrap bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
+        <button [routerLink]="['/complaints']" class="text-gray-600 hover:text-gray-800 text-sm whitespace-nowrap bg-cream-50 px-3 py-1.5 rounded-lg border border-gray-200">
             &larr; {{ 'BACK_TO_LIST' | translate }}
         </button>
     </div>
@@ -34,7 +34,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-500">{{ 'DESCRIPTION' | translate }}</label>
-                <p class="whitespace-pre-wrap break-words bg-gray-50 p-3 rounded border text-sm">{{complaint.description}}</p>
+                <p class="whitespace-pre-wrap break-words bg-cream-50 p-3 rounded border text-sm">{{complaint.description}}</p>
             </div>
 
             <div *ngIf="complaint.location" class="cursor-pointer text-blue-600 hover:underline"
@@ -71,7 +71,7 @@
         <!-- Right Column: Media & Attachments -->
         <div class="space-y-6 w-full">
             <!-- Main Photo -->
-            <div *ngIf="getResolvedPhotoUrl()" class="border rounded p-2 bg-gray-50">
+            <div *ngIf="getResolvedPhotoUrl()" class="border rounded p-2 bg-cream-50">
                 <label class="block text-sm font-medium text-gray-500 mb-2">{{ 'ATTACHED_PHOTO' | translate }}</label>
                 <img [src]="getResolvedPhotoUrl()" class="w-full h-auto rounded object-contain max-h-64 cursor-pointer"
                     (click)="openOriginalMedia()" title="Click to Open Original" onerror="this.style.display='none'">
@@ -83,7 +83,7 @@
                 <label class="block text-sm font-medium text-gray-500 mb-2">{{ 'ATTACHMENTS' | translate }}</label>
                 <div class="space-y-2">
                     <div *ngFor="let file of complaint.attachments"
-                        class="flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-gray-50 rounded border gap-2">
+                        class="flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-cream-50 rounded border gap-2">
                         <div class="flex items-center space-x-2 min-w-0">
                             <span class="text-gray-600 shrink-0">📎</span>
                             <span class="text-sm truncate max-w-full" title="{{file.fileName}}">{{file.fileName}}</span>
@@ -100,7 +100,7 @@
                 <div class="mt-2" *ngIf="complaint.status !== 'REJECTED'">
                     <input type="file" (change)="uploadAttachment($event)" id="fileInput" class="hidden">
                     <button onclick="document.getElementById('fileInput').click()"
-                        class="text-sm border border-dashed border-gray-400 text-gray-600 hover:bg-gray-50 px-3 py-2 rounded w-full">
+                        class="text-sm border border-dashed border-gray-400 text-gray-600 hover:bg-cream-50 px-3 py-2 rounded w-full">
                         {{ 'ADD_ATTACHMENT' | translate }}
                     </button>
                 </div>
@@ -112,7 +112,7 @@
     <div class="mt-8 border-t pt-6 w-full">
         <h3 class="text-lg font-bold mb-4">{{ 'COMMENTS' | translate }}</h3>
         <div class="space-y-4 max-h-64 overflow-y-auto mb-4 custom-scrollbar pr-2">
-            <div *ngFor="let comment of complaint.comments" class="bg-gray-50 p-3 rounded">
+            <div *ngFor="let comment of complaint.comments" class="bg-cream-50 p-3 rounded">
                 <div class="flex justify-between items-baseline mb-1">
                     <span class="font-semibold text-sm">{{comment.userName}}</span>
                     <span class="text-xs text-gray-500">{{comment.timestamp | date:'medium'}}</span>

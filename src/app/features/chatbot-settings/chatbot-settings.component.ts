@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatbotService, ChatbotSettings } from '../../services/chatbot.service';
 import { DepartmentService, Department } from '../../services/department.service';
 import { ComplaintService, ComplaintType } from '../../services/complaint.service';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core'; // Import Router
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { finalize } from 'rxjs';
@@ -30,7 +31,7 @@ interface BotNode {
 @Component({
     selector: 'app-chatbot-settings',
     standalone: true,
-    imports: [CommonModule, FormsModule], // Standalone imports
+    imports: [CommonModule, FormsModule, TranslateModule], // Standalone imports
     templateUrl: './chatbot-settings.component.html',
     styleUrls: ['./chatbot-settings.component.css']
 })
