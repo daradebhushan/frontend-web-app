@@ -51,7 +51,7 @@
 
                     <div class="max-h-96 overflow-y-auto scrollbar-thin">
                         <div *ngIf="loading" class="p-8 flex justify-center items-center">
-                            <svg class="animate-spin h-6 w-6 text-orange-500" xmlns="http://www.w3.org/2000/svg"
+                            <svg class="animate-spin h-6 w-6 text-orange-600" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                     stroke-width="4"></circle>
@@ -149,8 +149,8 @@
     <div class="fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-xl rounded-t-2xl shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] border-t border-gray-200/50 px-2 sm:px-6 py-2.5 sm:py-3 flex items-center justify-around z-[49] font-medium"
         style="z-index: 49 !important;">
         <!-- Home -->
-        <a [routerLink]="getHomeLink()" routerLinkActive="text-orange-500" [routerLinkActiveOptions]="{exact: true}"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a [routerLink]="getHomeLink()" routerLinkActive="text-orange-600" [routerLinkActiveOptions]="{exact: true}"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
                 stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -161,8 +161,8 @@
         </a>
 
         <!-- Tasks -->
-        <a routerLink="/tasks" routerLinkActive="text-orange-500"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a routerLink="/tasks" routerLinkActive="text-orange-600"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
                 stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -173,8 +173,8 @@
         </a>
 
         <!-- Complaints -->
-        <a routerLink="/complaints" routerLinkActive="text-orange-500"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a routerLink="/complaints" routerLinkActive="text-orange-600"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
                 stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -184,8 +184,8 @@
         </a>
 
         <!-- Staff -->
-        <a *ngIf="isAdmin()" routerLink="/admin/departments" routerLinkActive="text-orange-500"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a *ngIf="isAdmin()" routerLink="/admin/departments" routerLinkActive="text-orange-600"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
                 stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -196,8 +196,8 @@
         </a>
 
         <!-- Chatbot -->
-        <a *ngIf="isAdmin()" routerLink="/admin/chatbot" routerLinkActive="text-orange-500"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a *ngIf="isAdmin()" routerLink="/admin/chatbot" routerLinkActive="text-orange-600"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
                 stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -208,8 +208,8 @@
         </a>
 
         <!-- Settings -->
-        <a *ngIf="isAdmin() || isOwner()" routerLink="/settings" routerLinkActive="text-orange-500"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a *ngIf="isAdmin() || isOwner()" routerLink="/settings" routerLinkActive="text-orange-600"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:rotate-45 transition-transform" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -222,8 +222,8 @@
         </a>
 
         <!-- Owner: Admins -->
-        <a *ngIf="isOwner()" routerLink="/owner/admins" routerLinkActive="text-orange-500"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-500 transition-colors group px-1">
+        <a *ngIf="isOwner()" routerLink="/owner/admins" routerLinkActive="text-orange-600"
+            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
                 stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

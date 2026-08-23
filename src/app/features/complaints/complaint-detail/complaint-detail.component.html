@@ -1,98 +1,98 @@
-<div class="p-6 bg-white rounded-lg shadow-md max-w-4xl mx-auto" *ngIf="complaint">
+<div class="p-4 md:p-6 bg-white rounded-lg shadow-md w-full max-w-full overflow-x-hidden" *ngIf="complaint">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6 border-b pb-4">
-        <div>
-            <h2 class="text-2xl font-bold text-gray-800">Complaint #{{complaint.complaintNo}}</h2>
-            <span class="px-3 py-1 text-sm font-semibold rounded-full" [ngClass]="{
-                    'bg-yellow-100 text-yellow-800': complaint.status === 'PENDING',
-                    'bg-green-100 text-green-800': complaint.status === 'ACCEPTED',
-                    'bg-red-100 text-red-800': complaint.status === 'REJECTED',
-                    'bg-blue-100 text-blue-800': complaint.status === 'CONVERTED_TO_TASK'
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 border-b pb-4">
+        <div class="w-full">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800 break-words">Complaint #{{complaint.complaintNo}}</h2>
+            <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-full tracking-wider shadow-sm mt-2 inline-block" [ngClass]="{
+                    'bg-yellow-50 text-yellow-700 ring-1 ring-yellow-500/20': complaint.status === 'PENDING',
+                    'bg-green-50 text-green-700 ring-1 ring-green-500/20': complaint.status === 'ACCEPTED',
+                    'bg-red-50 text-red-700 ring-1 ring-red-500/20': complaint.status === 'REJECTED',
+                    'bg-blue-50 text-blue-700 ring-1 ring-blue-500/20': complaint.status === 'CONVERTED_TO_TASK'
                 }">
-                {{complaint.status}}
+                {{ complaint.status }}
             </span>
         </div>
-        <button [routerLink]="['/complaints']" class="text-gray-600 hover:text-gray-800">
-            &larr; Back to List
+        <button [routerLink]="['/complaints']" class="text-gray-600 hover:text-gray-800 text-sm whitespace-nowrap bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
+            &larr; {{ 'BACK_TO_LIST' | translate }}
         </button>
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         <!-- Left Column: Details -->
         <div class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-500">Citizen</label>
-                <div class="text-lg">{{complaint.citizenName}}</div>
-                <div class="text-gray-600">{{complaint.citizenMobile}}</div>
+                <label class="block text-sm font-medium text-gray-500">{{ 'CITIZEN' | translate }}</label>
+                <div class="text-base md:text-lg break-words">{{complaint.citizenName}}</div>
+                <div class="text-gray-600 break-words">{{complaint.citizenMobile}}</div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-500">Department</label>
-                <div class="font-medium">{{complaint.department?.name || complaint.departmentName || 'N/A'}}</div>
+                <label class="block text-sm font-medium text-gray-500">{{ 'DEPARTMENT' | translate }}</label>
+                <div class="font-medium break-words">{{complaint.department?.name || complaint.departmentName || 'N/A'}}</div>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-500">Description</label>
-                <p class="whitespace-pre-wrap bg-gray-50 p-3 rounded border">{{complaint.description}}</p>
+                <label class="block text-sm font-medium text-gray-500">{{ 'DESCRIPTION' | translate }}</label>
+                <p class="whitespace-pre-wrap break-words bg-gray-50 p-3 rounded border text-sm">{{complaint.description}}</p>
             </div>
 
             <div *ngIf="complaint.location" class="cursor-pointer text-blue-600 hover:underline"
                 (click)="openLocation()">
-                <label class="block text-sm font-medium text-gray-500">Location</label>
-                <span>📍 {{complaint.location}}</span>
+                <label class="block text-sm font-medium text-gray-500">{{ 'LOCATION' | translate }}</label>
+                <span class="break-words text-sm">📍 {{complaint.location}}</span>
             </div>
 
             <!-- Actions -->
-            <div class="flex space-x-3 pt-4">
+            <div class="flex flex-wrap gap-3 pt-4">
                 <button *ngIf="complaint.status === 'PENDING' || complaint.status === 'ACCEPTED'"
-                    (click)="convertToTask()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Create Task
+                    (click)="convertToTask()" class="bg-blue-600 text-white px-4 py-2 text-sm rounded hover:bg-blue-700 w-full sm:w-auto">
+                    {{ 'CREATE_TASK_BTN' | translate }}
                 </button>
                 <button *ngIf="complaint.status === 'PENDING'" (click)="updateStatus('REJECTED')"
-                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                    Reject
+                    class="bg-red-500 text-white px-4 py-2 text-sm rounded hover:bg-red-600 w-full sm:w-auto">
+                    {{ 'REJECT' | translate }}
                 </button>
             </div>
 
             <!-- Related Task Link -->
             <div *ngIf="complaint.relatedTaskId" class="mt-4 p-4 bg-blue-50 rounded border border-blue-200">
-                <label class="block text-sm font-medium text-blue-800">Related Task</label>
+                <label class="block text-sm font-medium text-blue-800">{{ 'RELATED_TASK' | translate }}</label>
                 <div class="flex items-center space-x-2">
-                    <span class="text-2xl">📋</span>
+                    <span class="text-xl">📋</span>
                     <a [routerLink]="['/tasks', complaint.relatedTaskId]"
-                        class="text-lg font-bold text-blue-600 hover:text-blue-800 hover:underline">
-                        {{ complaint.relatedTaskTitle || 'View Linked Task' }}
+                        class="text-base md:text-lg font-bold text-blue-600 hover:text-blue-800 hover:underline break-words">
+                        {{ complaint.relatedTaskTitle || ('VIEW_LINKED_TASK' | translate) }}
                     </a>
                 </div>
             </div>
         </div>
 
         <!-- Right Column: Media & Attachments -->
-        <div class="space-y-6">
+        <div class="space-y-6 w-full">
             <!-- Main Photo -->
-            <div *ngIf="getResolvedPhotoUrl()" class="border rounded p-2">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Attached Photo</label>
-                <img [src]="getResolvedPhotoUrl()" class="w-full h-auto rounded object-cover max-h-64 cursor-pointer"
+            <div *ngIf="getResolvedPhotoUrl()" class="border rounded p-2 bg-gray-50">
+                <label class="block text-sm font-medium text-gray-500 mb-2">{{ 'ATTACHED_PHOTO' | translate }}</label>
+                <img [src]="getResolvedPhotoUrl()" class="w-full h-auto rounded object-contain max-h-64 cursor-pointer"
                     (click)="openOriginalMedia()" title="Click to Open Original" onerror="this.style.display='none'">
-                <button (click)="openOriginalMedia()" class="mt-2 text-sm text-blue-600">Open Original</button>
+                <button (click)="openOriginalMedia()" class="mt-2 text-sm text-blue-600 w-full text-center border-t border-gray-200 pt-2">{{ 'OPEN_ORIGINAL' | translate }}</button>
             </div>
 
             <!-- Attachments List -->
             <div>
-                <label class="block text-sm font-medium text-gray-500 mb-2">Attachments</label>
+                <label class="block text-sm font-medium text-gray-500 mb-2">{{ 'ATTACHMENTS' | translate }}</label>
                 <div class="space-y-2">
                     <div *ngFor="let file of complaint.attachments"
-                        class="flex items-center justify-between p-2 bg-gray-50 rounded border">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-gray-600">📎</span>
-                            <span class="text-sm truncate max-w-xs" title="{{file.fileName}}">{{file.fileName}}</span>
+                        class="flex flex-col sm:flex-row sm:items-center justify-between p-2 bg-gray-50 rounded border gap-2">
+                        <div class="flex items-center space-x-2 min-w-0">
+                            <span class="text-gray-600 shrink-0">📎</span>
+                            <span class="text-sm truncate max-w-full" title="{{file.fileName}}">{{file.fileName}}</span>
                         </div>
-                        <div class="flex space-x-2">
+                        <div class="flex space-x-2 shrink-0">
                             <button *ngIf="isImage(file)" (click)="viewAttachment(file)"
-                                class="text-indigo-600 hover:text-indigo-800 text-sm">View</button>
+                                class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">{{ 'VIEW' | translate }}</button>
                             <button (click)="downloadFile(file)"
-                                class="text-blue-600 hover:text-blue-800 text-sm">Download</button>
+                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">{{ 'DOWNLOAD' | translate }}</button>
                         </div>
                     </div>
                 </div>
@@ -100,8 +100,8 @@
                 <div class="mt-2" *ngIf="complaint.status !== 'REJECTED'">
                     <input type="file" (change)="uploadAttachment($event)" id="fileInput" class="hidden">
                     <button onclick="document.getElementById('fileInput').click()"
-                        class="text-sm border border-dashed border-gray-400 text-gray-600 hover:bg-gray-50 px-3 py-1 rounded w-full">
-                        + Add Attachment
+                        class="text-sm border border-dashed border-gray-400 text-gray-600 hover:bg-gray-50 px-3 py-2 rounded w-full">
+                        {{ 'ADD_ATTACHMENT' | translate }}
                     </button>
                 </div>
             </div>
@@ -109,26 +109,26 @@
     </div>
 
     <!-- Comments Section -->
-    <div class="mt-8 border-t pt-6">
-        <h3 class="text-lg font-bold mb-4">Comments</h3>
-        <div class="space-y-4 max-h-64 overflow-y-auto mb-4 custom-scrollbar">
+    <div class="mt-8 border-t pt-6 w-full">
+        <h3 class="text-lg font-bold mb-4">{{ 'COMMENTS' | translate }}</h3>
+        <div class="space-y-4 max-h-64 overflow-y-auto mb-4 custom-scrollbar pr-2">
             <div *ngFor="let comment of complaint.comments" class="bg-gray-50 p-3 rounded">
                 <div class="flex justify-between items-baseline mb-1">
                     <span class="font-semibold text-sm">{{comment.userName}}</span>
                     <span class="text-xs text-gray-500">{{comment.timestamp | date:'medium'}}</span>
                 </div>
-                <p class="text-gray-700 text-sm">{{comment.text}}</p>
+                <p class="text-gray-700 text-sm break-words">{{comment.text}}</p>
             </div>
-            <div *ngIf="!complaint.comments?.length" class="text-gray-500 italic">No comments yet.</div>
+            <div *ngIf="!complaint.comments?.length" class="text-gray-500 italic text-sm">{{ 'NO_COMMENTS_YET' | translate }}</div>
         </div>
 
-        <div class="flex gap-2" *ngIf="complaint.status !== 'REJECTED'">
-            <input type="text" [(ngModel)]="newComment" placeholder="Write a comment..."
-                class="flex-1 border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+        <div class="flex flex-col sm:flex-row gap-2 w-full" *ngIf="complaint.status !== 'REJECTED'">
+            <input type="text" [(ngModel)]="newComment" [placeholder]="'WRITE_A_NOTE' | translate"
+                class="flex-1 border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 w-full"
                 (keydown.enter)="addComment()">
             <button (click)="addComment()"
-                class="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">
-                Send
+                class="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700 w-full sm:w-auto shrink-0">
+                {{ 'SEND' | translate }}
             </button>
         </div>
     </div>

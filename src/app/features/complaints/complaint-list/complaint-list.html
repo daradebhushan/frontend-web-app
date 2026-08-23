@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col pt-2 bg-cream-50 min-h-screen">
+<div class="h-full flex flex-col pt-2 bg-gray-50 min-h-screen w-full max-w-full overflow-x-hidden">
     <!-- Header -->
     <div class="px-4 mb-6">
         <h2 class="text-sm font-medium text-gray-500 mb-4">{{ 'NAV.COMPLAINTS' | translate }}</h2>
@@ -7,7 +7,7 @@
         <div class="relative mb-6">
             <input type="text" [(ngModel)]="searchText" (input)="onSearch()"
                 [placeholder]="'SEARCH_COMPLAINTS' | translate"
-                class="w-full bg-white border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-saffron-500 focus:border-saffron-500 outline-none shadow-sm transition">
+                class="w-full bg-white border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none shadow-sm transition">
             <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -19,7 +19,7 @@
         <div class="flex space-x-2 bg-transparent p-1 overflow-x-auto no-scrollbar">
             <button *ngFor="let tab of tabs" (click)="setTab(tab.label)"
                 class="flex-1 px-4 py-2.5 rounded-full text-sm font-semibold transition whitespace-nowrap border"
-                [ngClass]="activeTab === tab.label ? 'bg-saffron-600 text-white border-saffron-600 shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'">
+                [ngClass]="activeTab === tab.label ? 'bg-orange-600 text-white border-orange-600 shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50'">
                 {{ tab.label }}
             </button>
         </div>
@@ -27,15 +27,15 @@
 
     <!-- Complaint Cards -->
     <div class="px-4 pb-24 space-y-4">
-        <div *ngIf="loading" class="text-center py-4 text-gray-500">Loading complaints...</div>
+        <div *ngIf="loading" class="text-center py-4 text-gray-500">{{ 'LOADING_COMPLAINTS' | translate }}</div>
 
         <div *ngIf="!loading && filteredComplaints.length === 0"
             class="text-center py-8 text-gray-500 bg-white rounded-xl border border-gray-100">
-            <p>No complaints found</p>
+            <p>{{ 'NO_COMPLAINTS' | translate }}</p>
         </div>
 
         <div *ngFor="let complaint of filteredComplaints" (click)="viewDetails(complaint)"
-            class="bg-white rounded-2xl p-5 border border-gray-100 shadow-card hover:shadow-lg transition relative overflow-hidden group hover:-translate-y-0.5 transform duration-300 cursor-pointer">
+            class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden group hover:-translate-y-1 duration-300 cursor-pointer">
 
             <!-- Header -->
             <div class="flex justify-between items-start mb-3 pl-1">
@@ -51,7 +51,7 @@
             </div>
 
             <!-- Title (Complaint Type) -->
-            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-saffron-700 transition leading-tight">
+            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition leading-tight">
                 {{ complaint.complaintType?.name }}
             </h3>
 
@@ -104,30 +104,30 @@
             <div *ngIf="complaint.status === 'PENDING'" class="flex space-x-3 mt-4 pt-4 border-t border-gray-50">
                 <button (click)="$event.stopPropagation()" [routerLink]="['/complaints', complaint.id]"
                     class="flex-1 bg-gray-50 text-gray-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition border border-gray-200">
-                    View Details
+                    {{ 'VIEW_DETAILS' | translate }}
                 </button>
                 <ng-container *ngIf="isAdmin">
                     <button (click)="$event.stopPropagation(); acceptComplaint(complaint)"
                         class="flex-1 bg-green-50 text-green-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-green-100 transition border border-green-200">
-                        Accept
+                        {{ 'ACCEPT' | translate }}
                     </button>
                     <button (click)="$event.stopPropagation(); openRejectModal(complaint)"
                         class="flex-1 bg-red-50 text-red-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-red-100 transition border border-red-200">
-                        Reject
+                        {{ 'REJECT' | translate }}
                     </button>
                 </ng-container>
             </div>
 
             <div *ngIf="complaint.status === 'REJECTED' && complaint.rejectionReason"
                 class="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded">
-                Reason: {{ complaint.rejectionReason }}
+                {{ 'REASON' | translate }}: {{ complaint.rejectionReason }}
             </div>
 
             <div *ngIf="complaint.status === 'ACCEPTED'" class="mt-4 pt-4 border-t border-gray-50">
                 <div class="flex space-x-3">
                     <button (click)="$event.stopPropagation()" [routerLink]="['/complaints', complaint.id]"
                         class="flex-1 bg-gray-50 text-gray-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition border border-gray-200">
-                        View Details
+                        {{ 'VIEW_DETAILS' | translate }}
                     </button>
                     <button *ngIf="isAdmin" (click)="$event.stopPropagation(); openTaskModal(complaint)"
                         class="flex-1 bg-blue-50 text-blue-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-blue-100 transition border border-blue-200 flex items-center justify-center">
@@ -136,14 +136,14 @@
                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                             </path>
                         </svg>
-                        Create Task
+                        {{ 'CREATE_TASK_BTN' | translate }}
                     </button>
                 </div>
             </div>
 
             <div *ngIf="complaint.status === 'CONVERTED_TO_TASK'"
                 class="mt-2 text-xs text-blue-600 bg-blue-50 p-2 rounded text-center">
-                Task Created (No. {{ complaint.relatedTaskId }})
+                {{ 'TASK_CREATED_NO' | translate: {id: complaint.relatedTaskId} }}
             </div>
         </div>
     </div>
@@ -152,18 +152,18 @@
     <div *ngIf="showRejectModal"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
         <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl animate-fade-in-up">
-            <h3 class="text-lg font-bold text-gray-900 mb-4">Reject Complaint</h3>
+            <h3 class="text-lg font-bold text-gray-900 mb-4">{{ 'REJECT_COMPLAINT_TITLE' | translate }}</h3>
             <textarea [(ngModel)]="rejectionReason" rows="3"
                 class="w-full border border-gray-300 rounded-xl p-3 text-sm mb-4 focus:ring-2 focus:ring-red-500 outline-none"
-                placeholder="Enter reason for rejection..."></textarea>
+                [placeholder]="'ENTER_REASON_PLACEHOLDER' | translate"></textarea>
             <div class="flex space-x-3">
                 <button (click)="closeRejectModal()"
                     class="flex-1 py-2.5 text-gray-600 font-medium hover:bg-gray-100 rounded-xl transition">
-                    Cancel
+                    {{ 'CANCEL' | translate }}
                 </button>
                 <button (click)="submitRejection()" [disabled]="!rejectionReason"
                     class="flex-1 bg-red-600 text-white font-bold py-2.5 rounded-xl hover:bg-red-700 transition disabled:opacity-50 shadow-lg shadow-red-200">
-                    Reject
+                    {{ 'REJECT' | translate }}
                 </button>
             </div>
         </div>

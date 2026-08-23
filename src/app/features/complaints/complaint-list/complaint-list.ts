@@ -180,11 +180,11 @@ export class ComplaintListComponent implements OnInit, OnDestroy {
 
     getStatusClass(status: string) {
         switch (status) {
-            case 'PENDING': return 'bg-yellow-100 text-yellow-700 border border-yellow-200';
-            case 'ACCEPTED': return 'bg-green-100 text-green-700 border border-green-200';
-            case 'REJECTED': return 'bg-red-100 text-red-700 border border-red-200';
-            case 'CONVERTED_TO_TASK': return 'bg-blue-100 text-blue-700 border border-blue-200';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'PENDING': return 'bg-yellow-50 text-yellow-700 ring-1 ring-yellow-500/20';
+            case 'ACCEPTED': return 'bg-green-50 text-green-700 ring-1 ring-green-500/20';
+            case 'REJECTED': return 'bg-red-50 text-red-700 ring-1 ring-red-500/20';
+            case 'CONVERTED_TO_TASK': return 'bg-blue-50 text-blue-700 ring-1 ring-blue-500/20';
+            default: return 'bg-gray-50 text-gray-700 ring-1 ring-gray-500/20';
         }
     }
 }
