@@ -382,12 +382,12 @@
     <div *ngIf="showReassignModal"
         class="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl space-y-5 animate-scale-in">
-            <h3 class="text-lg font-bold text-gray-900 border-b border-gray-100 pb-3">{{ 'REASSIGN_TASK' | translate || 'Reassign Task' }}</h3>
+            <h3 class="text-lg font-bold text-gray-900 border-b border-gray-100 pb-3">{{ ('REASSIGN_TASK' | translate) || 'Reassign Task' }}</h3>
             <div>
-                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">{{ 'SELECT_STAFF' | translate || 'Select Staff' }}</label>
+                <label class="block text-xs font-bold text-gray-500 uppercase mb-2">{{ ('SELECT_STAFF' | translate) || 'Select Staff' }}</label>
                 <select [(ngModel)]="selectedStaffId"
                     class="w-full bg-gray-50 border border-gray-200 rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-orange-500/20 active:outline-none focus:outline-none transition">
-                    <option [ngValue]="null">{{ 'SELECT_STAFF' | translate || 'Select Staff...' }}</option>
+                    <option [ngValue]="null">{{ ('SELECT_STAFF' | translate) || 'Select Staff...' }}</option>
                     <option *ngFor="let s of staffList" [value]="s.id">{{ s.name }} ({{ s.designation?.name || ('STAFF' | translate) }})</option>
                 </select>
             </div>

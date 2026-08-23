@@ -11,6 +11,7 @@ export interface Task {
     dueDate?: string;
     department?: { id: number; name: string };
     assignedStaff?: { id: number; name: string };
+    relatedComplaint?: { id: number; location: string };
     createdDate: string;
 }
 
