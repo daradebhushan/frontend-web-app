@@ -34,3 +34,30 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
 }
+/* Prevent horizontal scroll globally */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    /* Prevent mobile tap highlight */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection on interactive elements */
+button, 
+a, 
+.card, 
+.nav-item, 
+[role="button"],
+.interactive-element {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Allow text selection inside inputs, textareas, and specific content areas */
+input, 
+textarea, 
+.selectable-text {
+    user-select: auto;
+    -webkit-user-select: auto;
+}
