@@ -58,7 +58,7 @@
                         <div class="flex justify-between items-center pt-2 border-t border-gray-50">
                             <div class="flex items-center gap-2">
                                 <img [src]="'https://ui-avatars.com/api/?name=' + (task.assignedStaff?.name || 'Unassigned') + '&background=EBF8FF&color=3182CE'"
-                                    class="w-6 h-6 rounded-full border border-white shadow-sm"
+                                    class="w-6 h-6 rounded-full border border-white shadow-sm shrink-0"
                                     [title]="task.assignedStaff?.name">
                                 <span class="text-xs text-gray-500 font-medium truncate max-w-[80px]">{{
                                     task.assignedStaff?.name || ('UNASSIGNED' | translate) }}</span>

@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-[#F8FAFC] font-sans">
+<div class="min-h-screen bg-[#F8FAFC] font-sans w-full max-w-full overflow-x-hidden">
 
     <!-- Glassmorphism Header (Issue 10 - Removed sticky) -->
     <div class="bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 py-3 shadow-sm transition-all duration-300">
@@ -50,7 +50,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                     </svg>
-                    <span>Filters ({{ (priorityFilter ? 1 : 0) + (statusFilter ? 1 : 0) }})</span>
+                    <span>{{ 'FILTER' | translate }} ({{ (priorityFilter ? 1 : 0) + (statusFilter ? 1 : 0) }})</span>
                 </div>
                 <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" [class.rotate-180]="showFilters"
                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@
 
                     <!-- Location -->
                     <div class="flex items-center text-xs text-gray-500">
-                        <svg class="w-3.5 h-3.5 mr-2 text-gray-400" fill="none" stroke="currentColor"
+                        <svg class="w-3.5 h-3.5 mr-2 text-gray-400 shrink-0" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
@@ -190,7 +190,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        <span class="truncate">Shivaji Chowk, Ward 3</span>
+                        <span class="truncate">{{ task.relatedComplaint?.location || ('LOCATION' | translate) + ' N/A' }}</span>
                     </div>
                 </div>
 
@@ -198,11 +198,10 @@
                 <div class="flex items-center justify-between pl-2 pt-3 border-t border-gray-50">
                     <div class="flex items-center space-x-2">
                         <div
-                            class="w-6 h-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-600 border border-white shadow-sm ring-1 ring-gray-100">
+                            class="w-6 h-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-[10px] font-bold text-gray-600 border border-white shadow-sm ring-1 ring-gray-100 shrink-0">
                             {{ (task.assignedStaff?.name || 'U').charAt(0) }}
                         </div>
-                        <span class="text-xs font-medium text-gray-600">{{ task.assignedStaff?.name || 'Unassigned'
-                            }}</span>
+                        <span class="text-xs font-medium text-gray-600 truncate max-w-[100px]">{{ task.assignedStaff?.name || ('UNASSIGNED' | translate) }}</span>
                     </div>
 
                     <!-- Status Badge -->
@@ -227,8 +226,8 @@
                 </svg>
             </button>
             <span
-                class="text-sm font-medium text-gray-500 bg-white px-4 py-1 rounded-full shadow-sm border border-gray-100">
-                Page {{ currentPage + 1 }} / {{ totalPages }}
+                class="text-sm font-medium text-gray-500 bg-white px-4 py-1 rounded-full shadow-sm border border-gray-100 whitespace-nowrap">
+                {{ currentPage + 1 }} / {{ totalPages }}
             </span>
             <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1"
                 class="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-white hover:shadow-md disabled:opacity-30 disabled:hover:shadow-none transition-all">
