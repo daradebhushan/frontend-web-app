@@ -93,7 +93,10 @@
             "allowedHosts": [
               "repayable-kenisha-inapprehensively.ngrok-free.dev",
               "localhost",
-              "0.0.0.0"
+              "0.0.0.0",
+              "townseva.in",
+              "www.townseva.in",
+              "api.townseva.in"
             ]
           },
           "configurations": {

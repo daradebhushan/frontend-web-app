@@ -7,6 +7,8 @@ import { Dashboard as StaffDashboard } from './features/staff/dashboard/dashboar
 import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
+    { path: '', loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent), pathMatch: 'full' },
+    { path: 'home', loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent) },
     { path: 'role-selection', loadComponent: () => import('./features/auth/role-selection/role-selection').then(m => m.RoleSelectionComponent) },
     { path: 'login', component: Login },
     { path: 'forgot-password', loadComponent: () => import('./features/auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent) },
@@ -107,14 +109,10 @@ export const routes: Routes = [
             {
                 path: 'settings',
                 loadComponent: () => import('./features/settings/settings').then(m => m.SettingsComponent),
-            },
-            {
-                path: '',
-                loadComponent: () => import('./features/home/home-redirect').then(m => m.HomeRedirectComponent)
             }
         ]
     },
-    { path: '**', redirectTo: 'role-selection' }
+    { path: '**', redirectTo: '' }
 ];
 
 // Trigger Rebuild 2

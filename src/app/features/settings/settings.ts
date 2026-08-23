@@ -16,7 +16,7 @@ import { environment } from '../../../environments/environment';
 })
 export class SettingsComponent implements OnInit {
     // Org Profile
-    orgName: string = 'Maharashtra Nagar Panchayat';
+    orgName: string = 'Loknagar Administration';
     orgLogo: string | null = null; // Base64 or URL
 
     // User Profile

@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: '/api'
+    apiUrl: 'https://api.townseva.in/api'
 };
+

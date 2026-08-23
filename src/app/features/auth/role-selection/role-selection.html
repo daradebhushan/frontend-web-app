@@ -8,13 +8,11 @@
 
     <!-- Top Emblem & Branding -->
     <div class="text-center mb-10 animate-fade-in-up">
-        <div class="w-24 h-24 mx-auto mb-4 relative drop-shadow-md">
-            <!-- Placeholder for Emblem/Ashoka Stambh -->
-            <svg class="w-full h-full text-saffron-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L15 8H9L12 2Z" /> <!-- Simple Crown Mock -->
-                <path d="M4 8H20V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V8Z" opacity="0.8" />
-                <circle cx="12" cy="14" r="3" class="text-white" fill="white" />
-            </svg>
+        <div class="w-24 h-24 mx-auto mb-4 relative drop-shadow-lg">
+            <div class="absolute inset-0 bg-gradient-to-br from-saffron-400 to-orange-600 rounded-full blur-xl opacity-30"></div>
+            <div class="relative bg-white rounded-full p-2 shadow-md border border-gray-100 flex items-center justify-center overflow-hidden w-full h-full">
+                <img src="assets/loknagar-logo.png" alt="Loknagar Logo" class="w-full h-full object-contain" />
+            </div>
         </div>
 
         <h1 class="text-4xl font-bold text-gray-900 mb-1 tracking-tight">{{ 'APP_TITLE' | translate }}</h1>
