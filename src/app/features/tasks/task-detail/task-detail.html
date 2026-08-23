@@ -47,7 +47,7 @@
                             'bg-gray-100 text-gray-700': task?.status === 'TO_DO',
                             'bg-yellow-100 text-yellow-700': task?.status === 'ON_HOLD'
                         }">
-                        <option *ngFor="let s of statusOptions" [value]="s">{{ s | translate }}</option>
+                        <option *ngFor="let s of statusOptions" [value]="s">{{ ('STATUS_' + s) | translate }}</option>
                     </select>
                     <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                         <svg class="w-3 h-3 text-current opacity-50" fill="none" stroke="currentColor"

@@ -9,7 +9,7 @@
                     'bg-red-50 text-red-700 ring-1 ring-red-500/20': complaint.status === 'REJECTED',
                     'bg-blue-50 text-blue-700 ring-1 ring-blue-500/20': complaint.status === 'CONVERTED_TO_TASK'
                 }">
-                {{ complaint.status }}
+                {{ complaint.status | translate }}
             </span>
         </div>
         <button [routerLink]="['/complaints']" class="text-gray-600 hover:text-gray-800 text-sm whitespace-nowrap bg-cream-50 px-3 py-1.5 rounded-lg border border-gray-200">
