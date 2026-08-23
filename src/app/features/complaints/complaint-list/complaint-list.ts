@@ -42,10 +42,10 @@ export class ComplaintListComponent implements OnInit, OnDestroy {
 
 
     tabs = [
-        { label: 'All', status: '' },
-        { label: 'Pending', status: 'PENDING' },
-        { label: 'Accepted', status: 'ACCEPTED' },
-        { label: 'Rejected', status: 'REJECTED' }
+        { label: 'ALL', status: '' },
+        { label: 'PENDING', status: 'PENDING' },
+        { label: 'ACCEPTED', status: 'ACCEPTED' },
+        { label: 'REJECTED', status: 'REJECTED' }
     ];
 
     private searchSubject = new Subject<string>();

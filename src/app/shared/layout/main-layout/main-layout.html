@@ -195,17 +195,7 @@
             <span class="text-[9px] sm:text-[10px] font-bold">{{ 'NAV_STAFF' | translate }}</span>
         </a>
 
-        <!-- Chatbot -->
-        <a *ngIf="isAdmin()" routerLink="/admin/chatbot" routerLinkActive="text-orange-600"
-            class="flex flex-col items-center text-gray-400 hover:text-orange-600 transition-colors group px-1">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 mb-1 group-hover:-translate-y-0.5 transition-transform" fill="none"
-                stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z">
-                </path>
-            </svg>
-            <span class="text-[9px] sm:text-[10px] font-bold">Chatbot</span>
-        </a>
+
 
         <!-- Settings -->
         <a *ngIf="isAdmin() || isOwner()" routerLink="/settings" routerLinkActive="text-orange-600"
@@ -230,7 +220,7 @@
                     d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
                 </path>
             </svg>
-            <span class="text-[9px] sm:text-[10px] font-bold">Admins</span>
+            <span class="text-[9px] sm:text-[10px] font-bold">{{ 'NAV_ADMINS' | translate }}</span>
         </a>
     </div>
 

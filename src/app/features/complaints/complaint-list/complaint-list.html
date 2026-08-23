@@ -1,173 +1,126 @@
-<div class="h-full flex flex-col pt-2 bg-cream-50 min-h-screen w-full max-w-full overflow-x-hidden">
-    <!-- Header -->
-    <div class="px-4 mb-6">
-        <h2 class="text-sm font-medium text-gray-500 mb-4">{{ 'NAV.COMPLAINTS' | translate }}</h2>
-
+<div class="h-full flex flex-col pt-4 bg-cream-50 min-h-screen w-full max-w-full overflow-x-hidden select-none">
+    
+    <!-- Search and Filter Header (Sticky) -->
+    <div class="px-4 mb-4 sticky top-0 z-10 bg-cream-50 pt-2 pb-2">
         <!-- Search -->
-        <div class="relative mb-6">
+        <div class="relative mb-4">
             <input type="text" [(ngModel)]="searchText" (input)="onSearch()"
                 [placeholder]="'SEARCH_COMPLAINTS' | translate"
-                class="w-full bg-white border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-saffron-500 focus:border-saffron-500 outline-none shadow-sm transition">
-            <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                class="w-full bg-white border-0 rounded-2xl py-3.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-saffron-500 shadow-sm transition outline-none text-gray-800 placeholder-gray-400">
+            <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
         </div>
 
         <!-- Tabs -->
-        <div class="flex space-x-2 bg-transparent p-1 overflow-x-auto no-scrollbar">
+        <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
             <button *ngFor="let tab of tabs" (click)="setTab(tab.label)"
-                class="flex-1 px-4 py-2.5 rounded-full text-sm font-semibold transition whitespace-nowrap border"
-                [ngClass]="activeTab === tab.label ? 'bg-saffron-600 text-white border-saffron-600 shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:bg-cream-50'">
-                {{ tab.label }}
+                class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all whitespace-nowrap"
+                [ngClass]="activeTab === tab.label ? 'bg-saffron-600 text-white shadow-md transform scale-105' : 'bg-white text-gray-500 border border-gray-200 hover:bg-gray-50'">
+                {{ tab.label | translate }}
             </button>
         </div>
     </div>
 
     <!-- Complaint Cards -->
-    <div class="px-4 pb-24 space-y-4">
-        <div *ngIf="loading" class="text-center py-4 text-gray-500">{{ 'LOADING_COMPLAINTS' | translate }}</div>
+    <div class="px-4 pb-28 space-y-4 flex-1 overflow-y-auto">
+        <div *ngIf="loading" class="text-center py-10 flex flex-col items-center justify-center">
+            <div class="w-8 h-8 border-4 border-saffron-200 border-t-saffron-600 rounded-full animate-spin mb-3"></div>
+            <p class="text-sm font-semibold text-gray-500">{{ 'LOADING_COMPLAINTS' | translate }}</p>
+        </div>
 
-        <div *ngIf="!loading && filteredComplaints.length === 0"
-            class="text-center py-8 text-gray-500 bg-white rounded-xl border border-gray-100">
-            <p>{{ 'NO_COMPLAINTS' | translate }}</p>
+        <div *ngIf="!loading && filteredComplaints.length === 0" class="text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col items-center">
+            <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+            <p class="text-gray-500 font-medium">{{ 'NO_COMPLAINTS' | translate }}</p>
         </div>
 
         <div *ngFor="let complaint of filteredComplaints" (click)="viewDetails(complaint)"
-            class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden group hover:-translate-y-1 duration-300 cursor-pointer">
-
-            <!-- Header -->
-            <div class="flex justify-between items-start mb-3 pl-1">
-                <div class="flex items-center space-x-2">
-                    <span class="text-[10px] font-mono text-gray-400 font-medium tracking-wider">#{{
-                        complaint.complaintNo }}</span>
+            class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative overflow-hidden group cursor-pointer active:scale-[0.98]">
+            
+            <!-- Card Header: ID & Status -->
+            <div class="flex justify-between items-center mb-3">
+                <div class="text-[10px] font-bold text-gray-400 tracking-wider bg-gray-50 px-2 py-1 rounded-md">
+                    #{{ complaint.complaintNo }}
                 </div>
-                <!-- Status Badge -->
-                <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-full tracking-wider shadow-sm"
-                    [ngClass]="getStatusClass(complaint.status)">
-                    {{ complaint.status }}
-                </span>
+                <div class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm" [ngClass]="getStatusClass(complaint.status)">
+                    {{ complaint.status | translate }}
+                </div>
             </div>
 
-            <!-- Title (Complaint Type) -->
-            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-saffron-700 transition leading-tight">
-                {{ complaint.complaintType?.name }}
+            <!-- Title & Main Info -->
+            <h3 class="text-lg font-bold text-gray-900 mb-1 leading-tight group-hover:text-saffron-600 transition-colors">
+                {{ complaint.complaintType?.name || ('GENERAL_COMPLAINT' | translate) }}
             </h3>
-
-            <!-- Citizen Info -->
-            <div class="text-sm text-gray-600 mb-3 flex flex-col">
-                <span class="font-medium">{{ complaint.citizenName }}</span>
-                <span class="text-xs text-gray-400">{{ complaint.citizenMobile }}</span>
-            </div>
-
-            <!-- Details Grid -->
-            <div class="grid grid-cols-2 gap-y-3 gap-x-4 mb-4 text-xs">
-                <!-- Date -->
-                <div class="flex items-center text-gray-500">
-                    <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                        </path>
-                    </svg>
-                    {{ complaint.createdDate | date:'dd MMM yyyy' }}
-                </div>
-                <!-- Department -->
-                <div class="flex items-center text-gray-500 truncate">
-                    <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                        </path>
-                    </svg>
-                    {{ complaint.department?.name }}
-                </div>
-            </div>
-
-            <!-- Description -->
-            <p *ngIf="complaint.description"
-                class="text-xs text-gray-500 line-clamp-3 mb-4 bg-cream-50 p-2 rounded-lg border border-gray-100 italic">
-                "{{ complaint.description }}"
+            
+            <p class="text-sm text-gray-500 font-medium mb-3 flex items-center">
+                <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                {{ complaint.citizenName }}<span *ngIf="complaint.createdDate"> &nbsp;• {{ complaint.createdDate | date:'MMM dd, yyyy' }}</span>
             </p>
 
-            <!-- Location (if any) -->
-            <p *ngIf="complaint.location" class="text-xs text-gray-400 mb-4 flex items-start">
-                <svg class="w-3 h-3 mr-1 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-                {{ complaint.location }}
-            </p>
+            <!-- Location Snippet -->
+            <div *ngIf="complaint.location" class="flex items-center text-xs text-gray-400 mb-4 bg-cream-50 p-2 rounded-xl">
+                <svg class="w-3.5 h-3.5 mr-1.5 text-saffron-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="truncate">{{ complaint.location }}</span>
+            </div>
 
-            <!-- Actions -->
-            <div *ngIf="complaint.status === 'PENDING'" class="flex space-x-3 mt-4 pt-4 border-t border-gray-50">
+            <!-- Action Buttons -->
+            <div *ngIf="complaint.status === 'PENDING'" class="flex space-x-2 mt-2 pt-4 border-t border-gray-50">
                 <button (click)="$event.stopPropagation()" [routerLink]="['/complaints', complaint.id]"
-                    class="flex-1 bg-cream-50 text-gray-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition border border-gray-200">
+                    class="flex-1 bg-gray-50 text-gray-700 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition active:bg-gray-200">
                     {{ 'VIEW_DETAILS' | translate }}
                 </button>
                 <ng-container *ngIf="isAdmin">
                     <button (click)="$event.stopPropagation(); acceptComplaint(complaint)"
-                        class="flex-1 bg-green-50 text-green-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-green-100 transition border border-green-200">
+                        class="flex-1 bg-green-500 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide hover:bg-green-600 transition shadow-sm active:bg-green-700">
                         {{ 'ACCEPT' | translate }}
                     </button>
                     <button (click)="$event.stopPropagation(); openRejectModal(complaint)"
-                        class="flex-1 bg-red-50 text-red-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-red-100 transition border border-red-200">
+                        class="px-4 bg-red-50 text-red-600 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide hover:bg-red-100 transition active:bg-red-200">
                         {{ 'REJECT' | translate }}
                     </button>
                 </ng-container>
             </div>
 
-            <div *ngIf="complaint.status === 'REJECTED' && complaint.rejectionReason"
-                class="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded">
-                {{ 'REASON' | translate }}: {{ complaint.rejectionReason }}
+            <div *ngIf="complaint.status === 'ACCEPTED'" class="mt-2 pt-4 border-t border-gray-50 flex space-x-2">
+                <button (click)="$event.stopPropagation()" [routerLink]="['/complaints', complaint.id]"
+                    class="flex-1 bg-gray-50 text-gray-700 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition active:bg-gray-200">
+                    {{ 'VIEW_DETAILS' | translate }}
+                </button>
+                <button *ngIf="isAdmin" (click)="$event.stopPropagation(); openTaskModal(complaint)"
+                    class="flex-1 bg-saffron-600 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide hover:bg-saffron-700 transition shadow-sm active:bg-saffron-800 flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    {{ 'CREATE_TASK_BTN' | translate }}
+                </button>
             </div>
-
-            <div *ngIf="complaint.status === 'ACCEPTED'" class="mt-4 pt-4 border-t border-gray-50">
-                <div class="flex space-x-3">
-                    <button (click)="$event.stopPropagation()" [routerLink]="['/complaints', complaint.id]"
-                        class="flex-1 bg-cream-50 text-gray-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition border border-gray-200">
-                        {{ 'VIEW_DETAILS' | translate }}
-                    </button>
-                    <button *ngIf="isAdmin" (click)="$event.stopPropagation(); openTaskModal(complaint)"
-                        class="flex-1 bg-blue-50 text-blue-700 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-blue-100 transition border border-blue-200 flex items-center justify-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-                            </path>
-                        </svg>
-                        {{ 'CREATE_TASK_BTN' | translate }}
-                    </button>
-                </div>
-            </div>
-
-            <div *ngIf="complaint.status === 'CONVERTED_TO_TASK'"
-                class="mt-2 text-xs text-blue-600 bg-blue-50 p-2 rounded text-center">
-                {{ 'TASK_CREATED_NO' | translate }} {{ complaint.relatedTaskId }}
+            
+            <div *ngIf="complaint.status === 'CONVERTED_TO_TASK' || complaint.status === 'REJECTED'" class="mt-2 pt-4 border-t border-gray-50 flex">
+                <button (click)="$event.stopPropagation()" [routerLink]="['/complaints', complaint.id]"
+                    class="w-full bg-gray-50 text-gray-700 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wide hover:bg-gray-100 transition active:bg-gray-200">
+                    {{ 'VIEW_DETAILS' | translate }}
+                </button>
             </div>
         </div>
     </div>
 
     <!-- Reject Modal -->
-    <div *ngIf="showRejectModal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
-        <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl animate-fade-in-up">
+    <div *ngIf="showRejectModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl">
             <h3 class="text-lg font-bold text-gray-900 mb-4">{{ 'REJECT_COMPLAINT_TITLE' | translate }}</h3>
             <textarea [(ngModel)]="rejectionReason" rows="3"
-                class="w-full border border-gray-300 rounded-xl p-3 text-sm mb-4 focus:ring-2 focus:ring-red-500 outline-none"
+                class="w-full bg-gray-50 border-0 rounded-2xl p-4 text-sm mb-4 focus:ring-2 focus:ring-red-500 outline-none placeholder-gray-400"
                 [placeholder]="'ENTER_REASON_PLACEHOLDER' | translate"></textarea>
             <div class="flex space-x-3">
                 <button (click)="closeRejectModal()"
-                    class="flex-1 py-2.5 text-gray-600 font-medium hover:bg-gray-100 rounded-xl transition">
+                    class="flex-1 py-3 text-gray-600 font-bold bg-gray-100 hover:bg-gray-200 rounded-xl transition">
                     {{ 'CANCEL' | translate }}
                 </button>
                 <button (click)="submitRejection()" [disabled]="!rejectionReason"
-                    class="flex-1 bg-red-600 text-white font-bold py-2.5 rounded-xl hover:bg-red-700 transition disabled:opacity-50 shadow-lg shadow-red-200">
+                    class="flex-1 bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700 transition disabled:opacity-50 shadow-md">
                     {{ 'REJECT' | translate }}
                 </button>
             </div>
         </div>
     </div>
-
-
 </div>
