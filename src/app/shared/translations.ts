@@ -40,6 +40,8 @@ export const TRANSLATIONS = {
 
         // Roles
         'CHIEF_OFFICER': 'Chief Officer (CO)',
+        'SYSTEM_OWNER': 'System Owner',
+        'PLATFORM_ADMIN': 'Platform Admin',
         'SUPER_ADMIN': 'Super Admin — Full Access',
         'DEPT_HEAD': 'Head of Department',
         'MID_LEVEL_ADMIN': 'Mid-Level Admin',
@@ -467,6 +469,8 @@ export const TRANSLATIONS = {
 
         // Roles
         'CHIEF_OFFICER': 'मुख्य अधिकारी (CO)',
+        'SYSTEM_OWNER': 'सिस्टम मालक',
+        'PLATFORM_ADMIN': 'प्लॅटफॉर्म प्रशासक',
         'SUPER_ADMIN': 'सुपर ॲडमिन — पूर्ण प्रवेश',
         'DEPT_HEAD': 'विभाग प्रमुख',
         'MID_LEVEL_ADMIN': 'मध्यम-स्तरीय प्रशासक',
