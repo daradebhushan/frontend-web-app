@@ -1,8 +1,7 @@
 export const TRANSLATIONS = {
     'EN': {
-        // Common
-        'APP_TITLE': 'Nagar Parishad Administration',
-        'APP_SUBTITLE': 'Local Governance',
+        'APP_TITLE': 'Townseva',
+        'APP_SUBTITLE': 'Nagar Parishad Management System',
         'MARATHI_TITLE': 'नगर परिषद प्रशासन',
         'SAVE': 'Save',
         'CANCEL': 'Cancel',
@@ -430,10 +429,9 @@ export const TRANSLATIONS = {
 
     },
     'MR': {
-        // Common
-        'APP_TITLE': 'नगर परिषद प्रशासन',
-        'APP_SUBTITLE': 'स्थानिक स्वराज्य संस्था',
-        'MARATHI_TITLE': 'Nagar Parishad Administration',
+        'APP_TITLE': 'टाऊनसेवा',
+        'APP_SUBTITLE': 'नगर परिषद कार्य व्यवस्थापन',
+        'MARATHI_TITLE': 'Townseva Administration',
         'SAVE': 'जतन करा',
         'CANCEL': 'रद्द करा',
         'DELETE': 'काढून टाका',
