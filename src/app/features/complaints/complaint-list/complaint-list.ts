@@ -132,6 +132,7 @@ export class ComplaintListComponent implements OnInit, OnDestroy {
         }
 
         this.filteredComplaints = filtered;
+        this.cdr.detectChanges();
     }
 
     // Actions
